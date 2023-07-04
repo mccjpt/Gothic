@@ -1,6 +1,5 @@
 _resetChecks()
 
-@resets = __(foreach .Reset {'1'})
-if @resets > '1' num then
-    'Warning: model contains too many resets: ' dowhile .Reset {id ', '} newline 
-endif
+foreach .Reset {
+	'Warning: model contains deprecated Reset: ' id newline 
+}
