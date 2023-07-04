@@ -5,11 +5,6 @@ State machine
 Graph: Miss Grant <State machine> 3_6062
 	Name: Miss Grant
 	Description: Security box for Miss Grant.
-Object: doorOpened D1OP <Reset> 3_7029
-	Events: doorOpened D1OP
-	Object: doorOpened D1OP <Event> 3_7023
-		Name: doorOpened
-		Code: D1OP
 Object: idle <Situation> 3_6073
 	Name: idle
 	Command: unlockDoor D1UL lockPanel PNLK
@@ -37,6 +32,7 @@ Object: unlockedPanel <Situation> 3_6165
 	Object: lockDoor D1LK <Command> 3_6189
 		Name: lockDoor
 		Code: D1LK
+Object: Start <Start> 3_7078
 Relationship:  <Transition> 3_6863
 	Trigger: 
   Role: doorClosed D1CL <Source>  Object: <Situation> 3_6073
@@ -79,8 +75,11 @@ Relationship:  <Transition> 3_6913
 		Name: panelClosed
 		Code: PNCL
   Role: Target <Target>  Object: <Situation> 3_6073
-Relationship:  <Transition> 3_7049
+Relationship:  <Transition> 3_7081
 	Trigger: 
-  Role:  <Source>  Object: <Reset> 3_7029
-	Trigger: 
+  Role: doorOpened D1OP <Source>  Object: <Start> 3_7078
+	Trigger: doorOpened D1OP
+	Object: doorOpened D1OP <Event> 3_7023
+		Name: doorOpened
+		Code: D1OP
   Role: Target <Target>  Object: <Situation> 3_6073

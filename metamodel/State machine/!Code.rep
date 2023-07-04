@@ -10,10 +10,13 @@ do _commands()  where id unique id {
 }
 newline
 
+foreach .Start; {
+	'State StartState = new State("start");' newline
+} 
+
 foreach .Situation; {
 	'State ' id 'State = new State("' id '");' newline
 } newline
-
 
 foreach .(); {
 	do :Command {

@@ -23,6 +23,7 @@ Situation
 	Command: OrderedCollection (Command)
 		A set of commands done within the state.
 		---------------------------------------------
+Start
 
 ==========================
 Relationship Types
@@ -75,25 +76,19 @@ Event
 	Code: String
 		Code is a mandatory field.
 		---------------------------------------------
-Reset
-	Reset causing the state machine initialization.
-	---------------------------------------------
-	Events: OrderedCollection (Event)
-		Events causing reset of the state machine.
-		---------------------------------------------
 
 ==========================
 Bindings
 ==========================
 Transition
-	Source: Situation
+	Source: Situation, Start
 	Target: Situation
 
 ==========================
 Constraints
 ==========================
-Reset may be in at most 1 Transition relationship
-Reset may occur at most 1 time
+Start may be in at most 1 Transition relationship
+Start may occur at most 1 time
 Property "Name" in Situation must have unique values
 
 ==========================
