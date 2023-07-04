@@ -14,8 +14,8 @@ State machine
 ==========================
 Object Types
 ==========================
-State
-	State of the Gothic Security system.
+Situation
+	Situation of the Gothic Security system.
 	---------------------------------------------
 	Name: String
 		Mandatory name of the state.
@@ -84,17 +84,17 @@ Bindings
 ==========================
 Transition
 	Source: Reset
-	Target: State
+	Target: Situation
 Transition
-	Source: State
-	Target: State
+	Source: Situation
+	Target: Situation
 
 ==========================
 Constraints
 ==========================
 Reset may be in at most 1 Transition relationship
 Reset may occur at most 1 time
-Property "Name" in State must have unique values
+Property "Name" in Situation must have unique values
 
 ==========================
 Subgraphs

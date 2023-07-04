@@ -10,12 +10,12 @@ do _commands()  where id unique id {
 }
 newline
 
-foreach .State; {
+foreach .Situation; {
 	'State ' id 'State = new State("' id '");' newline
 } newline
 
 
-foreach .State; {
+foreach .Situation; {
 	do :Command {
 		id;1 'State.addAction(' :Name 'Cmd);' newline
 	}

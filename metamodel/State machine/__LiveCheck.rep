@@ -1,6 +1,6 @@
 __LiveCheck()
 
-foreach .State; where not ~() {
+foreach .Situation; where not ~() {
 	'Warning: ' id ' does not have any transitions.' newline 
 }
 

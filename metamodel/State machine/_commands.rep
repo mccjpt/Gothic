@@ -1,3 +1,3 @@
 _commands()
 
-foreach .State {do :Command {oid newline}}
+foreach .Situation {do :Command {oid newline}}

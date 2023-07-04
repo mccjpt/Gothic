@@ -10,7 +10,7 @@ Object: doorOpened D1OP <Reset> 3_7029
 	Object: doorOpened D1OP <Event> 3_7023
 		Name: doorOpened
 		Code: D1OP
-Object: idle <State> 3_6073
+Object: idle <Situation> 3_6073
 	Name: idle
 	Command: unlockDoor D1UL lockPanel PNLK
 	Object: unlockDoor D1UL <Command> 3_6087
@@ -19,16 +19,16 @@ Object: idle <State> 3_6073
 	Object: lockPanel PNLK <Command> 3_6097
 		Name: lockPanel
 		Code: PNLK
-Object: active <State> 3_6107
+Object: active <Situation> 3_6107
 	Name: active
 	Command: 
-Object: waitingForDrawer <State> 3_6137
+Object: waitingForDrawer <Situation> 3_6137
 	Name: waitingForDrawer
 	Command: 
-Object: waitingForLight <State> 3_6151
+Object: waitingForLight <Situation> 3_6151
 	Name: waitingForLight
 	Command: 
-Object: unlockedPanel <State> 3_6165
+Object: unlockedPanel <Situation> 3_6165
 	Name: unlockedPanel
 	Command: unlockPanel PNUL lockDoor D1LK
 	Object: unlockPanel PNUL <Command> 3_6179
@@ -42,34 +42,34 @@ Relationship: doorClosed D1CL <Transition> 3_6863
 	Object: doorClosed D1CL <Event> 3_6207
 		Name: doorClosed
 		Code: D1CL
-  Role: Source <Source>  Object: <State> 3_6073
-  Role: Target <Target>  Object: <State> 3_6107
+  Role: Source <Source>  Object: <Situation> 3_6073
+  Role: Target <Target>  Object: <Situation> 3_6107
 Relationship: lightOn L1ON <Transition> 3_6873
 	Trigger: lightOn L1ON
 	Object: lightOn L1ON <Event> 3_6229
 		Name: lightOn
 		Code: L1ON
-  Role: Source <Source>  Object: <State> 3_6107
-  Role: Target <Target>  Object: <State> 3_6137
+  Role: Source <Source>  Object: <Situation> 3_6107
+  Role: Target <Target>  Object: <Situation> 3_6137
 Relationship: drawerOpened D2OP <Transition> 3_6883
 	Trigger: drawerOpened D2OP
 	Object: drawerOpened D2OP <Event> 3_6251
 		Name: drawerOpened
 		Code: D2OP
-  Role: Source <Source>  Object: <State> 3_6137
-  Role: Target <Target>  Object: <State> 3_6165
+  Role: Source <Source>  Object: <Situation> 3_6137
+  Role: Target <Target>  Object: <Situation> 3_6165
 Relationship: drawerOpened D2OP <Transition> 3_6893
 	Trigger: drawerOpened D2OP
-  Role: Source <Source>  Object: <State> 3_6107
-  Role: Target <Target>  Object: <State> 3_6151
+  Role: Source <Source>  Object: <Situation> 3_6107
+  Role: Target <Target>  Object: <Situation> 3_6151
 Relationship: lightOn L1ON <Transition> 3_6903
 	Trigger: lightOn L1ON
-  Role: Source <Source>  Object: <State> 3_6151
-  Role: Target <Target>  Object: <State> 3_6165
+  Role: Source <Source>  Object: <Situation> 3_6151
+  Role: Target <Target>  Object: <Situation> 3_6165
 Relationship: panelClosed PNCL <Transition> 3_6913
 	Trigger: panelClosed PNCL
 	Object: panelClosed PNCL <Event> 3_6297
 		Name: panelClosed
 		Code: PNCL
-  Role: Source <Source>  Object: <State> 3_6165
-  Role: Target <Target>  Object: <State> 3_6073
+  Role: Source <Source>  Object: <Situation> 3_6165
+  Role: Target <Target>  Object: <Situation> 3_6073
