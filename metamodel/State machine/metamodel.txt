@@ -40,6 +40,9 @@ Role Types
 Source
 	Source of the transition.
 	---------------------------------------------
+	Trigger: Event
+		An event triggering the transition.
+		---------------------------------------------
 Target
 	Points to the target of the transition.
 	---------------------------------------------
@@ -108,5 +111,6 @@ Sub-Generators
 _commands
 _events
 _resetChecks
+_target
 __LiveCheck
 

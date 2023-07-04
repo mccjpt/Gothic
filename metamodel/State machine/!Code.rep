@@ -15,17 +15,21 @@ foreach .Situation; {
 } newline
 
 
-foreach .Situation; {
+foreach .(); {
 	do :Command {
 		id;1 'State.addAction(' :Name 'Cmd);' newline
 	}
-	do ~Source>Transition {
-		id;1 'State.addTransition('
-		do :Trigger {:Name} ', '
-		do ~Target.() {id}
-		'State);' newline
+	do ~Source {
+		if :Trigger; then
+			id;1 'State.addTransition('_target()
+		else
+			do >() {
+				id;2 'State.addTransition('_target()
+			}
+		endif
+		newline
 	}
-	newline
 }
+
 
 

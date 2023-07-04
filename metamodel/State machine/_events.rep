@@ -1,5 +1,9 @@
 _events()
 
-foreach >() {do :Trigger {oid newline}}
-
-foreach .Reset {do :Events {oid newline}}
+foreach ~Source {
+	if :Trigger; then
+		do :Trigger {oid newline}
+	else
+		do >() {do :Trigger {oid newline}}
+	endif
+}

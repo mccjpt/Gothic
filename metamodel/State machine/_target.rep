@@ -1,0 +1,5 @@
+_target()
+
+do :Trigger {:Name} ', '
+do ~Target.() {id}
+'State);' newline

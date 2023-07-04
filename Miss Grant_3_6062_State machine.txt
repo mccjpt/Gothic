@@ -37,43 +37,50 @@ Object: unlockedPanel <Situation> 3_6165
 	Object: lockDoor D1LK <Command> 3_6189
 		Name: lockDoor
 		Code: D1LK
-Relationship: doorClosed D1CL <Transition> 3_6863
+Relationship:  <Transition> 3_6863
+	Trigger: 
+  Role: doorClosed D1CL <Source>  Object: <Situation> 3_6073
 	Trigger: doorClosed D1CL
 	Object: doorClosed D1CL <Event> 3_6207
 		Name: doorClosed
 		Code: D1CL
-  Role: Source <Source>  Object: <Situation> 3_6073
   Role: Target <Target>  Object: <Situation> 3_6107
-Relationship: lightOn L1ON <Transition> 3_6873
+Relationship:  <Transition> 3_6873
+	Trigger: 
+  Role: lightOn L1ON <Source>  Object: <Situation> 3_6107
 	Trigger: lightOn L1ON
 	Object: lightOn L1ON <Event> 3_6229
 		Name: lightOn
 		Code: L1ON
-  Role: Source <Source>  Object: <Situation> 3_6107
   Role: Target <Target>  Object: <Situation> 3_6137
-Relationship: drawerOpened D2OP <Transition> 3_6883
+Relationship:  <Transition> 3_6883
+	Trigger: 
+  Role: drawerOpened D2OP <Source>  Object: <Situation> 3_6137
 	Trigger: drawerOpened D2OP
 	Object: drawerOpened D2OP <Event> 3_6251
 		Name: drawerOpened
 		Code: D2OP
-  Role: Source <Source>  Object: <Situation> 3_6137
   Role: Target <Target>  Object: <Situation> 3_6165
-Relationship: drawerOpened D2OP <Transition> 3_6893
+Relationship:  <Transition> 3_6893
+	Trigger: 
+  Role: drawerOpened D2OP <Source>  Object: <Situation> 3_6107
 	Trigger: drawerOpened D2OP
-  Role: Source <Source>  Object: <Situation> 3_6107
   Role: Target <Target>  Object: <Situation> 3_6151
-Relationship: lightOn L1ON <Transition> 3_6903
+Relationship:  <Transition> 3_6903
+	Trigger: 
+  Role: lightOn L1ON <Source>  Object: <Situation> 3_6151
 	Trigger: lightOn L1ON
-  Role: Source <Source>  Object: <Situation> 3_6151
   Role: Target <Target>  Object: <Situation> 3_6165
-Relationship: panelClosed PNCL <Transition> 3_6913
+Relationship:  <Transition> 3_6913
+	Trigger: 
+  Role: panelClosed PNCL <Source>  Object: <Situation> 3_6165
 	Trigger: panelClosed PNCL
 	Object: panelClosed PNCL <Event> 3_6297
 		Name: panelClosed
 		Code: PNCL
-  Role: Source <Source>  Object: <Situation> 3_6165
   Role: Target <Target>  Object: <Situation> 3_6073
 Relationship:  <Transition> 3_7049
 	Trigger: 
-  Role: Source <Source>  Object: <Reset> 3_7029
+  Role:  <Source>  Object: <Reset> 3_7029
+	Trigger: 
   Role: Target <Target>  Object: <Situation> 3_6073
