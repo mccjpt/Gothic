@@ -2,3 +2,4 @@ _events()
 
 foreach >() {do :Trigger {oid newline}}
 
+foreach .Reset {do :Events {oid newline}}

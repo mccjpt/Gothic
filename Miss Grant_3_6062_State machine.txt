@@ -5,6 +5,16 @@ State machine
 Graph: Miss Grant <State machine> 3_6062
 	Name: Miss Grant
 	Description: Security box for Miss Grant.
+Object: doorOpened D1OP <Reset> 3_7029
+	Events: doorOpened D1OP
+	Object: doorOpened D1OP <Event> 3_7023
+		Name: doorOpened
+		Code: D1OP
+Object: a a1 <Reset> 3_7040
+	Events: a a1
+	Object: a a1 <Event> 3_7034
+		Name: a
+		Code: a1
 Object: idle <State> 3_6073
 	Name: idle
 	Command: unlockDoor D1UL lockPanel PNLK

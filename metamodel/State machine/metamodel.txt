@@ -23,6 +23,12 @@ State
 	Command: OrderedCollection (Command)
 		A set of commands done within the state.
 		---------------------------------------------
+Reset
+	Reset causing the state machine initialization.
+	---------------------------------------------
+	Events: OrderedCollection (Event)
+		Events causing reset of the state machine.
+		---------------------------------------------
 
 ==========================
 Relationship Types
