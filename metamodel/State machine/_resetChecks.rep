@@ -3,3 +3,7 @@ _resetChecks()
 foreach .Reset {
 	'Warning: model contains deprecated Reset: ' id newline 
 }
+
+foreach .Reset; where .() {
+	'Warning: ' id ' has a transition to ' dowhile .(){id ', '}'.' newline 
+}
