@@ -1,0 +1,11 @@
+Report '_Object Nesting'
+if not $generated =~ oid%wildsp then
+	variable 'generated' append oid ' ' close
+
+	newline '''' id ''' <' type '>'
+	to '%indent' translate
+		do contents where metatype = 'Object'
+		{	subreport '_Object Nesting' run	}
+	endto
+endif
+endreport

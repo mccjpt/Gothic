@@ -1,0 +1,42 @@
+Report 'Export graph hierarchy to HTML'
+/*	Creates HTML documentation for the selected graph which also follows the submodel hieararchy:
+*	Calls _translators subreport, which is used later when producing the id in the variable format for the file and picture names
+*  Stores the starting graph into a variable value
+*	Sets a reported Graphs variable empty
+*	Calls _graphs-subreport
+*	Executes the starting graph html-file with the default www browser
+*/
+subreport '_translators' run
+
+filename subreport '_default directory' run subreport '_id and oid' run '_hierarchy.html' encoding 'UTF-8' write
+/* Mark of the Web: Possibly useful in IE, kills pictures in Edge */
+/* '<!-- saved from url=(0014)about:internet -->' newline */
+'<html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'
+subreport '__stylesheet in HTML' run
+subreport '_styles and scripts for HTML hierarchy' run
+'</head><body>' newline
+'<div class="toc">' newline
+$branchCount = '0'
+subreport '_TOC for HTML' run
+'</div>' newline
+
+variable 'starting_graph' append /* Just ensure it exists */ close
+if $starting_graph = '' then 
+	variable 'starting_graph' write subreport '_id and oid' run close
+	$Graphs=' '
+endif
+
+'<div class="content">' newline
+'<iframe name="contentPage" src="' subreport '_id and oid' run '.html"></iframe>' newline
+subreport '_graphs in HTML' run 
+'</div>' newline
+'<script>
+closeBranches(''' $branchCount ''');
+</script>' newline
+'</body></html>' newline
+
+close
+
+external '"' subreport '_default directory' run $starting_graph '_hierarchy.html"' execute
+endreport

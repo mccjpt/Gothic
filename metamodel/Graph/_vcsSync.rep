@@ -1,0 +1,15 @@
+_vcsSync()
+/* Make sure this repository, the local VCS cache, and remote VCS are in sync */
+_vcsPaths()
+$dbDir = __(internal 'dbDir' read)
+
+filename $syncScript write
+_vcsHeader()
+_osSet('msg', do __(internal 'vcsComment' read) unique '1' { id }) newline
+_osSet('vcsDirty', internal 'vcsDirty' read) newline
+
+subreport '_vcsSync_' $vcs run
+
+close
+
+external $syncScript execute

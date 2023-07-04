@@ -1,0 +1,9 @@
+__(@arg)
+/* 
+	Useful for concatenating strings to assign to a variable,
+	or elsewhere where only a single command can be used. 
+	Rather than the longer:  variable 'a' write 'prefix' $b 'suffix' close
+	can write short, clear:  $a = __('prefix' $b 'suffix')
+	Note this is not multiple arguments, just one formed by multiple commands.
+*/
+@arg

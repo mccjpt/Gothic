@@ -1,0 +1,7 @@
+_osCd(@dir)
+if sep = '\' then 
+	'cd /d ' 
+else 
+	'cd ' 
+endif
+'"' @dir '"'

@@ -1,0 +1,11 @@
+Projects()
+'ELEMENTS THAT LINK TO ANOTHER PROJECT: (graph: ' id ', project: ' project ')' newline
+
+to '%first
+/^(.).*$/ $$1'
+endto
+
+foreach .() {_Project_NP()}
+foreach >() {_Project_NP()}
+foreach ~() {_Project_NP()}
+_Project_NP()

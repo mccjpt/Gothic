@@ -1,0 +1,12 @@
+__Unique(@type, @id)
+if not @type then @type = type endif
+if not @id then @id = id endif
+variable '__Unique_' @type append '' close
+@coll = __(variable '__Unique_' @type read)
+if not @coll then 
+	variable '__Unique_' @type append newline close 
+endif
+if not @coll =~ __('*' newline @id newline '*') then
+	variable '__Unique_' @type append @id newline close
+	'T'
+endif

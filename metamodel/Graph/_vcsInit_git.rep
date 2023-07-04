@@ -1,0 +1,14 @@
+_vcsInit_git()
+'
+git init || ' _osPause() '
+echo manager.ab binary>>.gitattributes || ' _osPause() '
+echo ' $dbBackupName '/**/*.t[to][tob]>>.gitignore || ' _osPause() '
+git config --local core.autocrlf ' _vcs_git_autocrlf() '
+git add -A || ' _osPause() '
+git commit -m "Imported new empty directory as basis for new MetaEdit+ repository ' $dbName '" || ' _osPause() '
+'
+if $gitProjectURL then
+	'git config credential.helper ' _vcs_git_cred() ' || ' _osPause() newline
+	'git remote add origin ' $gitProjectURL ' || ' _osPause() newline
+	'git push -u origin master || ' _osPause() newline
+endif

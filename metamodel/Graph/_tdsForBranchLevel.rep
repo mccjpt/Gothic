@@ -1,0 +1,6 @@
+_tdsForBranchLevel(@levelsLeft)
+
+if @levelsLeft > '1' NUM then
+	'<td class="empty"></td>'
+	_tdsForBranchLevel(@--levelsLeft)
+endif

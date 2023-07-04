@@ -1,0 +1,13 @@
+_subgraphOids()
+/* Output space-separated oids of subgraphs, or nothing */
+
+@found=''
+foreach .() orderby '1'	{	do decompositions	orderby '1' { ' ' oid @found='T'}
+				  					do explosions		orderby '1'	{ ' ' oid @found='T'} }
+
+/* Do not list explosions from relationships or roles, as we do not follow them */
+/* 
+foreach >() orderby '1'	{	do explosions		orderby '1'	{ ' ' oid @found='T'} }
+foreach ~() orderby '1'	{	do explosions		orderby '1'	{ ' ' oid @found='T'} }
+*/
+if @found then ' ' endif

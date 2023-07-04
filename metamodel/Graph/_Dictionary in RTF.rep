@@ -1,0 +1,62 @@
+Report '_Dictionary in RTF'
+variable 'mainObjects' write
+	' '
+	foreach .() { oid ' ' }
+close
+variable 'extraObjects' write ' ' close
+'\s2 {\*\bkmkstart g' oid '}{' id%rtf ': ' type%rtf '\par}{\*\bkmkend g' oid '}\pard\plain' newline
+'{\keep\keepn Graph properties:\par}' newline
+'\trowd \trgaph105'
+subreport '_RTF table cell definitions' run	'\cellx2500'
+subreport '_RTF table cell definitions' run	'\cellx9700\pard\plain'
+_propsDeeplyInRTF()
+'\pard {\par}' newline
+	
+'\keep\keepn {\b Diagram picture: \b0' id%rtf '\par}' newline
+filename subreport '_default directory' run oid '.png' print
+'{\field{\*\fldinst { INCLUDEPICTURE "' oid '.png" \\* MERGEFORMAT }}{\fldrslt }}{\par \par}\pard\plain'
+/* Dictionary table begins */
+'{\b Graph dictionary \b0' '{\par}}'
+@documentation_needed = ''
+foreach .() unique type
+{	do :() 
+	{	if containers = 'Documentation' or containers = 'Description' then 
+			@documentation_needed = 'T' 
+		endif
+	}
+}
+'\trowd \trgaph108' 
+subreport '_RTF table cell definitions' run	'\cellx2900'
+subreport '_RTF table cell definitions' run	'\cellx4800'
+if @documentation_needed then 
+	subreport '_RTF table cell definitions' run	'\cellx9700\pard\plain'
+	'\intbl \b{Object\cell Type of Object\cell Documentation\cell}'
+else
+	'\intbl \b{Object\cell Type of Object\cell}'
+endif
+'\b0\pard \intbl\ {\row }'
+foreach .() 
+{
+	'\trowd \trgaph108 '
+	subreport '_RTF table cell definitions' run	'\cellx2900'
+	subreport '_RTF table cell definitions' run	'\cellx4800'
+	if @documentation_needed = 'T' then 
+		subreport '_RTF table cell definitions' run	'\cellx9700'
+	endif
+	' \pard\plain \intbl '
+	'{{\field{\*\fldinst {HYPERLINK \\l "o' oid '" }}\ul{\fldrslt {' 
+		id%trunc80%rtf 
+		if not id then '_' endif 
+	'}}}\cell ' type%rtf '\cell ' newline
+	if @documentation_needed then 
+		$doc = :Documentation
+		if not $doc then 
+			$doc = :Description 
+		endif
+		if $doc then $doc%rtf else '\~' endif
+		'\cell'
+	endif
+	'}\pard \intbl {\row}'
+	}
+'\pard {\par}'
+endreport

@@ -1,0 +1,16 @@
+_vcsOutputProperties(@indent)
+/* Outputs properties of the element */
+local 'indent' append '	' close
+do :()
+{	@indent containers ': ' id
+	newline
+	if not _vcsSkipPropRecursion() then
+		do contents where metatype <> 'Text' and metatype <> 'String'
+		{	variable oid append '1' close
+			local 'oidX' write variable oid read close
+			if @oidX = '1' then
+				_vcsOutputNonProperty(@indent)
+			endif
+		}
+	endif
+}

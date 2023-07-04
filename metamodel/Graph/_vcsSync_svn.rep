@@ -1,0 +1,134 @@
+_vcsSync_svn()
+/* To get the revision of the current DB, look up its version comment first in the local .svn and then in the remote SVN repository, since we don't know which has the more up-to-date history */
+'
+pushd ' $vcsWorkingDir '
+
+' _osRem('Display and collect the current version in all our various places') newline
+
+if sep = '\' then /* .bat */
+'set DBVER=
+for /f "usebackq skip=1 tokens=1 delims=r " %%i in (`svn log --search "%msg%" --incremental`) do if not defined DBVER set DBVER=%%i
+if not defined DBVER for /f "usebackq skip=1 tokens=1 delims=r " %%i in (`svn log ' $svnProjectURL ' --search "%msg%" --incremental`) do if not defined DBVER set DBVER=%%i
+
+if not defined DBVER (
+	echo Current DB revision not found locally or remotely: solve manually
+	exit /B 1
+)
+
+set LOCALVER=
+for /f "usebackq skip=1 tokens=1 delims=r " %%i in (`svn log --limit 1 --quiet --incremental`) do if not defined LOCALVER set LOCALVER=%%i
+
+set REMOTEVER=
+for /f "usebackq skip=1 tokens=1 delims=r " %%i in (`svn log ' $svnProjectURL ' --limit 1 --quiet --incremental`) do if not defined REMOTEVER set REMOTEVER=%%i
+
+' _osRem('Compare local VCS with remote VCS, pull/push if necessary') '
+if "%LOCALVER%"=="%REMOTEVER%" (
+	echo Local .svn in sync with remote
+) else (
+	if "%LOCALVER%" LSS "%REMOTEVER%" (
+		echo Need to pull
+		TortoiseProc /command:cleanup /path:"%CD%" /delunversioned /delignored /revert /nodlg /noprogressui /noui
+		svn update
+	) else (
+		echo Need to push or has diverged: solve manually
+		exit /B 2
+)	)
+
+'
+	if $vcsRebase then 
+'
+echo Multi-user version, no need to update DB
+'
+	else
+	/* only replace DB in single user version */
+_osRem('Now compare local DB with remote VCS') '
+if "%DBVER%"=="%REMOTEVER%" (
+	if "%vcsDirty%"=="" (
+		echo DB version matches remote SVN, no unversioned model changes in DB
+	) else (
+		echo DB version matches remote SVN, but DB has unversioned changes
+	)
+) else (
+	if "%DBVER%" LSS "%REMOTEVER%" (
+		if "%vcsDirty%"=="" (
+			echo DB version is older than remote SVN, no unversioned model changes in DB: copy from SVN
+		) else (
+			' _osPause(newline 'DANGER: DB version is older than remote SVN, but DB has unversioned changes.' newline '  Press Enter to discard those changes and continue, or' newline '  press Ctrl+C and answer yes to abort') '
+		)
+		popd
+		if exist "' $dbDir '" ' _osPause(newline 'DANGER: Older ' $dbDir ' already exists, about to replace - ' newline '  exit MetaEdit+ and press Enter to continue, or' newline '  press Ctrl+C and answer yes to abort') '
+		' _osRmdir($dbDir) '
+		pushd ' $vcsWorkingDir newline
+		do _vcsRestoreDB($dbDir) {'		' id newline} '
+	) else (
+		' _osRem('should not happen with SVN') '
+		echo DB version is in remote SVN, but remote HEAD is an older version: solve manually
+		exit /B 3
+	)
+)'
+	endif /* single user version */
+else /* Bash */
+	@getVer='sed -n -E ''/^r[0-9]+ /{s/^r([0-9]+) .+/\1/p;q}'''
+'
+unset DBVER
+export DBVER=`svn log --search "$msg" --incremental | ' @getVer '`
+if [ "$DBVER" == "" ]; then
+	export DBVER=`svn log ' $svnProjectURL ' --search "$msg" --incremental | ' @getVer '`
+fi
+
+if [ "$DBVER" == "" ]; then
+	echo Current DB revision not found locally or remotely: solve manually
+	exit 1
+fi
+
+export  LOCALVER=`svn log --limit 1 --quiet --incremental | ' @getVer '`
+export REMOTEVER=`svn log ' $svnProjectURL ' --limit 1 --quiet --incremental | ' @getVer '`
+
+' _osRem('Compare local VCS with remote VCS, pull/push if necessary') '
+if [ "$LOCALVER" == "$REMOTEVER" ]; then
+	echo Local .svn in sync with remote
+else
+	if [ "$LOCALVER" -lt "$REMOTEVER" ]; then
+		echo Need to pull
+		svn cleanup --remove-unversioned --remove-ignored || ' _osPause() '
+		svn update
+	else
+		echo Need to push or has diverged: solve manually
+		exit 2
+	fi
+fi
+
+'
+	if $vcsRebase then 
+'
+echo Multi-user version, no need to update DB
+'
+	else
+	/* only replace DB in single user version */
+_osRem('Now compare local DB with remote VCS') '
+if [ "$DBVER" == "$REMOTEVER" ]; then
+	if [ "$vcsDirty" == "" ]; then
+		echo DB version matches remote SVN, no unversioned model changes in DB
+	else 
+		echo DB version matches remote SVN, but DB has unversioned changes
+	fi
+) else (
+	if [ "$DBVER" -lt "$REMOTEVER" ]; then
+		if [ "$vcsDirty" == "" ]; then
+			echo DB version is older than remote SVN, no unversioned model changes in DB: copy from SVN
+		else
+			' _osPause(newline 'DANGER: DB version is older than remote SVN, but DB has unversioned changes.' newline '  Press Enter to discard those changes and continue, or' newline '  press Ctrl+C and answer yes to abort') '
+		fi
+		popd
+		if [ -d "' $dbDir '" ]; then ' _osPause(newline 'DANGER: Older ' $dbDir ' already exists, about to replace - ' newline '  exit MetaEdit+ and press Enter to continue, or' newline '  press Ctrl+C and answer yes to abort') '; fi
+		' _osRmdir($dbDir) '
+		pushd ' $vcsWorkingDir newline
+		do _vcsRestoreDB($dbDir) {'		' id newline} '
+	else
+		' _osRem('should not happen with SVN') '
+		echo DB version is in remote SVN, but remote HEAD is an older version: solve manually
+		exit 3
+	fi
+fi'
+	endif /* single user version */
+endif /* Bash */

@@ -1,0 +1,3 @@
+_vcsInitClone_svn()
+'
+svn checkout ' $svnProjectURL ' ' $vcsWorkingDir ' || ' _osPause() newline

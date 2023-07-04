@@ -1,0 +1,22 @@
+Report '_IDL operation'
+if :Protocol; = 'oneway' then 
+	'	oneway '
+else '	' endif
+if :Protocol; = 'exception' then 
+	'exception'
+else
+	if :Return type; = '' then 'void'
+	else :Return type; endif
+endif
+' ' id
+if :Protocol; = 'exception' then 
+	' {' dowhile :Parameter list; {  if :Direction; then :Direction; ' ' endif :Data type; ' ' :Parameter; ', ' } '};'
+else
+	' (' dowhile :Parameter list; {  if :Direction; then :Direction; ' ' endif :Data type; ' ' :Parameter; ', ' } ');'
+endif
+if :Documentation; <> '' then 
+	'	// '
+	dowhile :Documentation; {id ' '}
+endif
+newline
+endreport

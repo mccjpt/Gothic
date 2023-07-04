@@ -1,0 +1,4 @@
+_vcsMetamodelSnapshot()
+/* Output a textual representation of metamodel and generators */
+_vcsPaths()
+internal 'document:into: * "' $vcsWorkingDir sep 'metamodel"' execute

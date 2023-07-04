@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<symbolLibrary xmlns="http://www.metacase.com/symbol">
+	<librarySymbol name="BlueRectangle">
+		<objectSymbol offset="40,20" scaleFilter="1,1">
+			<defaultConnectable isSticky="true" points="130,64 129.619,66.2961 128.536,68.2426 126.913,69.5433 125,70 44.75,70 42.8366,69.5433 41.2145,68.2426 40.1306,66.2961 39.75,64 39.75,25.75 40.1306,23.4539 41.2145,21.5074 42.8366,20.2067 44.75,19.75 125,19.75 126.913,20.2067 128.536,21.5074 129.619,23.4539 130,25.75 130,64" targetPointX="85" targetPointY="45" usesGrid="false"></defaultConnectable>
+			<svg baseProfile="tiny" height="70" version="1.2" width="130" xmlns="http://www.w3.org/2000/svg">
+				<rect fill="none" height="50" rx="5" ry="6" stroke="rgb(32,32,255)" stroke-width="1" width="90" x="40" y="20">
+					<metaInfo xmlns="http://www.metacase.com/symbol"></metaInfo>
+				</rect>
+			</svg>
+		</objectSymbol>
+	</librarySymbol>
+</symbolLibrary>

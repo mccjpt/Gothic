@@ -1,0 +1,4 @@
+Report '_default directory'
+/* 	This subreport defines the directory where the reports are generated */
+'reports' sep
+endreport

@@ -1,0 +1,18 @@
+_graphsWithIconsInHTML(@branchGraphs, @subgraphOids)
+
+/* To avoid reporting the same graph multiple times as a subgraph of this 
+	graph, e.g. if it is here both a decomposition and an explosion, we need
+	a variable that our subreport can append to but that will not be 
+	overwritten by recursive descent before we return from this generator 
+	invocation. We can name it by the current depth, not reused until we return.
+*/
+@visitedVariableName = __('visitedSubgraphs' $branchLevel)
+variable @visitedVariableName write ' ' close
+
+if @subgraphOids then
+	do graphs 
+	where @subgraphOids =~ oid%wildsp 
+	orderby id ': ' type /* Mimic the rather odd sorting of Graph Browser */
+	{	_TOCLevel(@visitedVariableName, @branchGraphs)
+	}
+endif

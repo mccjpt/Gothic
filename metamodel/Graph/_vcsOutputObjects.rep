@@ -1,0 +1,14 @@
+_vcsOutputObjects(@indent)
+/* Outputs objects in the graph */
+foreach .() orderby type, objectid num
+{	_vcsOutputNonProperty(@indent)
+	
+	do decompositions orderby type, objectid
+	{	'	Decomposed to: ' id ' <' type '>' newline
+	}
+	
+	do explosions orderby type, objectid
+	{	'	Explode to: ' id ' <' type '>' newline
+	}
+	
+}

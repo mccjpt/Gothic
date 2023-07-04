@@ -1,0 +1,27 @@
+Report '_subgraphs in HTML'
+'<noscript>
+<b>' id%trunc80%xml '</b> subgraphs:<br />
+</noscript>' newline
+subreport '__Table HTML' run '<tr>'
+'<th>Subgraph type</th><th>Graph''s name</th></tr>' newline
+'<tr><th align="left">Decomposition</th><td>'
+if decompositions then 	
+	do decompositions
+	{	'<a href="' subreport '_id and oid' run '.html">' id%xml '</a>' newline 
+	}
+else 
+	'none' newline
+endif
+'</td></tr>' newline
+'<tr><th align="left">Explosions</th><td>'
+if explosions then 
+	dowhile explosions 
+	{	'<a href="' subreport '_id and oid' run '.html">' id%xml '</a>' 
+		'<br />' newline
+	}
+else 
+	'none'
+endif
+'</td><tr>' newline
+'</table><br />' newline
+endreport

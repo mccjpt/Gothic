@@ -1,0 +1,5 @@
+_propertyStyle()
+
+@style = 'italic'
+do :() { @style = 'normal' }
+@style

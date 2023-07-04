@@ -1,0 +1,21 @@
+_findProperties()
+
+do :() {
+	if id =~ $string then 
+		if metatype;1 = 'Object' or metatype;1 = 'Relationship' or metatype;1 = 'Role' then
+			newline 
+			id ' <' type '> in ' metatype;1 ': ' id;1 ' <' type;1 '> in ' metatype;2 ': ' id;2 ' <' type;2 '> in project: ' project;2
+		else
+			newline
+			id ' <' type '> in graph: ' id;1 ' <' type;1 '> in project: ' project;1
+		endif
+		$properties_found = 'T'
+		$total_found++%null
+	endif
+	do contents where metatype = 'Object' {
+		if not $visited =~ oid%wildnl then
+			variable 'visited' append oid newline close
+		   _findProperties() 
+		endif
+	}	
+}

@@ -1,0 +1,14 @@
+_vcsRestoreDB(@dbDir)
+/* Have to run these while temporarily back in MetaEdit+ working directory */
+'popd' newline
+if $use7zip then
+	'"' $7zipExe '" x "' $vcsWorkingDir sep $dbBackupName '.7z" -o"' @dbDir'"' newline
+else
+	if sep = '\' then 
+		'xcopy /e /i /%xcopyDisplay% /z "' $vcsWorkingDir sep $dbBackupName '" "' @dbDir '"' newline
+	else
+		'cp -r ' $vcsWorkingDir sep $dbBackupName ' ' @dbDir  newline
+	endif
+endif
+	
+'pushd "' $vcsWorkingDir '"' newline

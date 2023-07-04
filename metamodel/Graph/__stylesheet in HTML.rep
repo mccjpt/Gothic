@@ -1,0 +1,13 @@
+Report '__stylesheet in HTML'
+variable 'writtenStylesheet' append close
+if not $writtenStylesheet then
+	filename subreport '_default directory' run 'metaedit.css' write
+		subreport '__stylesheet data' run
+	close 
+	$writtenStylesheet='T'
+endif
+'
+<title>' id%xml ' report</title>
+<link rel="stylesheet" type="text/css" href="metaedit.css">
+'
+endreport

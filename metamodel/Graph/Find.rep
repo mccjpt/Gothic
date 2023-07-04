@@ -1,0 +1,82 @@
+Find()
+/* You had to select some graph to run this global find */
+subreport '_translators' run
+$visited = '
+' /* avoid loop in search via properties */
+$total_found = '0'
+variable 'string' write
+	prompt 'Find what: (using the wildcard search: * (0 to many characters) and # (1 character))' ask 
+close
+
+$graphs_found = ''
+'Find the string: ' $string 
+newline newline
+'Graphs: '
+do graphs {
+	if id =~ $string then 
+		newline
+		id ' <' type '> in project: ' project 
+		$graphs_found = 'T'
+		$total_found++%null
+	endif
+}
+if $graphs_found = '' then 
+	'Not found!' 
+endif
+newline newline
+
+$objects_found = ''
+'Objects: ' 
+do graphs {
+	foreach .() {
+		if id =~ $string then 
+			newline
+			id ' <' type '> in graph: ' id;1 ' <' type;1 '> in project: ' project
+			$objects_found = 'T'
+			$total_found++%null
+		endif
+	}
+}
+
+if $objects_found = '' then 
+	'Not found!'
+endif
+newline newline
+
+$relationships_found = ''
+'Relationships: ' 
+do graphs {
+	foreach >() {
+		if id =~ $string then 
+			newline
+			id ' <' type '> in graph: ' id;1 ' <' type;1 '> in project: ' project
+			$relationships_found = 'T'
+			$total_found++%null
+		endif
+	}
+}
+if $relationships_found = '' then 
+	'Not found!'
+endif
+newline newline
+
+$properties_found = ''
+'Properties: ' 
+do graphs {
+	_findProperties()
+	foreach .() {
+		_findProperties()
+	}
+	foreach >() {
+		_findProperties()
+	}
+	foreach ~() {
+		_findProperties()
+	}
+}
+if $properties_found = '' then 
+	'Not found!'
+endif
+newline newline
+
+'Total found: ' $total_found

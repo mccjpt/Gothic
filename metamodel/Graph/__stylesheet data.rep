@@ -1,0 +1,25 @@
+Report '__stylesheet data'
+'
+BODY, DIR, LI, TABLE, P {
+	FONT-SIZE: 8pt; COLOR: #0a1650; FONT-FAMILY: Verdana, Arial, sans-serif; TEXT-DECORATION: none
+}
+H3, H4, H5, H6 {
+	FONT-WEIGHT: bold; FONT-SIZE: 9pt; COLOR: #0a1650; FONT-FAMILY: Verdana, Arial, sans-serif; TEXT-DECORATION: none
+}
+H2 {
+	FONT-WEIGHT: bold; FONT-SIZE: 10pt; COLOR: #a90b01; FONT-FAMILY: Verdana, Arial, sans-serif; TEXT-DECORATION: none
+}
+H1 {
+	FONT-WEIGHT: bold; FONT-SIZE: 11pt; COLOR: #a90b01; FONT-FAMILY: Verdana, Arial, sans-serif; TEXT-DECORATION: none
+}
+A {
+	COLOR: #000088; TEXT-DECORATION: underline
+}
+.normal {
+	FONT-SIZE: 8pt; COLOR: #0a1650; FONT-FAMILY: Verdana, Arial, sans-serif; TEXT-DECORATION: none
+}
+.mainlinks {
+	FONT-WEIGHT: bold; FONT-SIZE: 8pt; COLOR: #000088; FONT-FAMILY: Verdana, Arial, sans-serif; TEXT-DECORATION: underline
+}
+'
+endreport

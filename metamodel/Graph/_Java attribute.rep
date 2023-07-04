@@ -1,0 +1,14 @@
+Report '_Java attribute'
+if :Data type; = '' then
+	'	// please specify data type'
+endif
+'	'
+:Access level; ' '
+if :Attribute type; = 'class' then 'static ' endif
+:Data type; ' ' :Name ';'
+if :Documentation; <> '' then 
+	'	// '
+	dowhile :Documentation; {id ' '}
+endif
+newline
+endreport

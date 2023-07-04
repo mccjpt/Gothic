@@ -1,0 +1,67 @@
+_graphMLdata(@path)
+
+'  <graph id="' @path '" edgedefault="directed">' newline
+
+foreach .() {
+	'    <node id="' @path '_' oid '">' newline
+	'      <data key="nodelabel">' type '</data>' newline
+	_graphMLattributes() 
+	do~()#() unique id {
+		'      <port name="' @path '_' oid;1 '_' oid '">' newline
+		_graphMLattributes()
+		'      </port>' newline
+	}
+	do decompositions {
+		_graphMLdata(@path '_' oid;1 '_' oid)
+	}
+	'    </node>' newline
+}
+
+/* direction should be taken from metamodel, now generic */
+foreach >() {
+	@i = '0'
+	do ~() orderby objectid num { /* now taken based on creation number */
+		do .() {
+			@i++%null
+			@obj = oid
+			local 'obj' @i write @path'_' oid close
+		}
+		do #() {
+			local 'port' @i write @path'_' @obj '_' oid close
+		}
+	}
+	if @i = '2' then
+		'    <edge id="' @path '_' oid '" source="' @obj1 '"' 
+		if @port1 then ' sourceport="' @port1 '"' endif
+		' target="' @obj2 '"'
+		if @port2 then ' targetport="' @port2 '">' endif
+		_graphMLattributes()
+		'</edge>' newline
+	else
+		'    <hyperedge id="' @path '_' oid '">' newline
+		_graphMLattributes()		
+		do ~() orderby objectid num {
+			do .() {
+				@obj = oid
+				'      <endpoint id="' @path'_' oid;1 '" node="' @path '_' @obj '"' 
+			}
+			do	#() { 
+				' port="' @path '_' @obj '_' oid '"'
+				if type=~ 'In*' and not type=~ 'InOut*' then 
+					@dir = 'in' 
+				else
+					if type=~ 'Out*' and not type=~ 'InOut*' then 
+						@dir = 'out' 
+					endif
+				endif
+				if @dir then
+					' type="' @dir '"'
+					@dir = ''
+				endif
+			}
+			'/>' newline
+		}
+		'    </hyperedge>' newline
+	endif
+}
+'  </graph>' newline

@@ -1,0 +1,27 @@
+_propsDeeplyInHTML(@parentGraphId)
+do :() 
+{	'<tr><th align="left" valign="top">'
+	to '%xml' translate containers endto 
+	'</th><td valign="top" style="white-space: pre-wrap;">'
+	@skip = _skipPropRecursion()
+	if contents then
+		@sep = ''
+		dowhile contents { 
+			@sep
+			if @skip or metatype = 'Text' or metatype = 'String' then
+				id%xml
+			else
+				'<a href="#' oid '">' id%trunc80%xml '</a>' 
+			endif
+			@sep = __(if metatype = 'Text' then '<br />' else ', ' endif)
+		}
+	else
+		id%xml 
+	endif
+	'&nbsp;</td></tr>'
+	if not @skip then
+		do contents where metatype <> 'Text' and metatype <> 'String' 
+		{	_extraTypesInHTML(@parentGraphId) 
+		}
+	endif
+}

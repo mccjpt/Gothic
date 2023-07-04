@@ -1,0 +1,108 @@
+Report '_GraphMetrics'
+/* Compares if graph has been already reported and adds it to the variable of reported graphs (Graphs) */
+if not $Graphs =~ oid%wildsp then
+	variable 'Graphs' append oid ' ' close
+	$num_graphs++%null
+	'METRICS (graph: ' id ')' newline
+
+/* Initializes the variables */
+	$Object_types=$Relationship_types=$Role_types=''
+	$Objects=$Relationships=$Roles='0'
+	$all_properties=$used_properties='0'
+
+/* Counting the graph's own properties */
+	subreport '_properties for metrics' run
+
+/* Counting object, relationship and role types found from model */ 
+
+/* Objects */
+	foreach .() unique type {
+		variable 'Object_types' append type newline close
+		variable type '_Object' write '0' close
+	}
+	foreach .() {	
+		variable type '_Object' append '+1' close
+		subreport '_properties for metrics' run
+		$Objects++%null 
+	}
+
+/* Relationships */
+	foreach >() unique type {
+		variable 'Relationship_types' append type newline close
+		variable type '_Relationship' write '0' close
+	}
+	foreach >() {	
+		variable type '_Relationship' append '+1' close
+		subreport '_properties for metrics' run
+		$Relationships++%null 
+	}
+
+/* Roles */
+	foreach ~() unique type {
+		variable 'Role_types' append type newline close
+		variable type '_Role' write '0' close
+	}
+	foreach ~() {
+		variable type '_Role' append '+1' close
+		subreport '_properties for metrics' run
+		$Roles++%null
+	}
+
+	/* Report the summary */
+	'Number of objects: ' $Objects newline
+	@myType = 'Object'
+	_typesForMetrics(@myType)
+
+	/* Represents the number of relatioships in this model */
+	'Number of relationships: ' $Relationships newline
+	@myType = 'Relationship'
+	_typesForMetrics(@myType)
+	/* Represents the number of connection, aka ((number of connected roles+1)//2) in this model */	
+	'Number of connections: ' math '(' $Roles '+1)//2' evaluate newline
+
+	'Number of roles: ' $Roles newline
+	@myType = 'Role'
+	_typesForMetrics(@myType)
+
+	/* Update the total variables */
+	variable 'total_objects' append
+		'+' $Objects
+	close 
+	variable 'total_relationships' append
+		'+' $Relationships
+	close 
+	variable 'total_connections' append
+		'+' math '(' $Roles '+1)//2' evaluate
+	close 
+	variable 'total_roles' append
+		'+' $Roles
+	close 
+
+/* Report the properties */
+'Number of properties in this graph: ' $all_properties newline 
+'Number of used properties in this graph: ' $used_properties newline 
+'Number of empty properties in this graph: ' 
+math $all_properties '-' $used_properties evaluate newline newline
+
+variable 'total_properties' append
+	'+' $all_properties
+close 
+
+variable 'total_used_properties' append
+	'+' $used_properties
+close 
+
+variable 'total_empty_properties' append
+	'+' math $all_properties '-' $used_properties evaluate
+close 
+
+/* Goes through the submodels */
+	foreach .() {
+		do decompositions { subreport '_GraphMetrics' run }
+		do explosions { subreport '_GraphMetrics' run }
+	}
+	foreach >() {do explosions {newline subreport '_GraphMetrics' run }}
+	foreach ~() {do explosions {newline subreport '_GraphMetrics' run }}
+
+endif
+endreport

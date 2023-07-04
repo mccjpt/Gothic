@@ -1,0 +1,23 @@
+_vcsInitClone(@dbNameVCS, @dbNameLocal)
+/* Clones $vcsProjectURL into a new working directory, and $dbBaseDir if it does not already exist. Optional @dbNameVCS and @dbNameLocal can override the VCS $dbName and resulting subdir of $dbBaseDir from _vcsPaths() and .vcsPaths */
+
+_vcsPaths(@dbNameVCS)
+@dbDir = __(
+	$dbBaseDir sep 
+	if @dbNameLocal then @dbNameLocal else $dbName endif
+)
+
+/* Output the check-in script */
+filename $initCloneScript write
+_vcsHeader()
+'pushd "' $vcsBaseDir '" || ' _osPause() newline
+subreport '_vcsInitClone_' $vcs run
+newline 
+if not __(internal 'exists: "' @dbDir '"' read) then 
+	_vcsRestoreDB(@dbDir)
+endif
+newline
+'popd'
+close
+
+external $initCloneScript execute

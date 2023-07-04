@@ -1,0 +1,9 @@
+_reportExtraObjectsInRTF()
+/* Reports all the extra objects in the model */
+'\s3{Sub-objects:\par}\pard\plain' newline
+if $extraObjects <> ' ' then
+	do $extraObjects%spaceToNewline 
+	{ variable id '_rtf' read }
+else
+	'none\par'
+endif

@@ -1,0 +1,31 @@
+_propsDeeplyInRTF()
+do :()
+{
+	'\trowd \trgaph105'
+	subreport '_RTF table cell definitions' run '\cellx2500'
+	subreport '_RTF table cell definitions' run '\cellx9700\pard \intbl{\keep\keepn \b ' 
+	to '%rtf' translate containers endto 
+	'\cell\b0 ' 
+	@skip = _skipPropRecursion()
+	if contents then
+		@sep = ''
+		dowhile contents 
+		{ 
+			@sep
+			if @skip or metatype = 'Text' or metatype = 'String' then
+				id%rtf 
+			else
+				'{\field{\*\fldinst {HYPERLINK \\l "o' oid '" }}\ul{\fldrslt {' id%trunc80%rtf '}}} ' newline
+			endif
+			@sep = __(if metatype = 'Text' then '{\par}' else ', ' endif)
+		} 
+	else
+		id%rtf
+	endif
+	'\cell}\pard \intbl {\row }' newline
+	if not @skip then
+		do contents where metatype <> 'Text' and metatype <> 'String'
+		{	_extraTypesInRTF() 
+		}
+	endif
+}

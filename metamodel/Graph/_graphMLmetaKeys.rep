@@ -1,0 +1,22 @@
+_graphMLmetaKeys()
+/* extend the basic graphML with keys from the metamodel */
+
+if not $visited =~ oid%wildnl then
+	variable 'visited' append oid newline close
+	foreach .() {
+		do :() where not containers =~ '__*' {
+			@keyValue = containers
+			'  <key id="' type;1%var @keyValue%var '" for="node" attr.name="' @keyValue%var '"/>' newline
+		}
+	}
+	foreach >() {
+		do :() where not containers =~ '__*' {
+			@keyValue = containers
+			'  <key id="' type;1%var @keyValue%var '" for="node" attr.name="' @keyValue%var '"/>' newline
+		}
+	}	
+	foreach .() {
+		do decompositions {_graphMLmetaKeys()}
+	}
+endif
+

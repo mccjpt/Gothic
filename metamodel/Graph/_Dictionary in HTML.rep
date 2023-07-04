@@ -1,0 +1,62 @@
+Report '_Dictionary in HTML'
+variable 'mainObjects' write
+	' ' 
+	foreach .() { oid ' ' }
+close
+variable 'extraObjects' write ' ' close
+'<a name="' oid '"></a>' newline
+filename subreport '_default directory' run subreport '_id and oid' run '.png' print
+'<img src="' subreport '_id and oid' run '.png" border="0" usemap="#' subreport '_default directory' run subreport '_id and oid' run '.png"><br />' newline
+'<div id="' oid '">' newline
+'<h2>Graph documentation: ' id%xml '</h2>' newline
+'<div class="Tab" id="Tab">' newline
+'	<ul class="Item">' newline
+'		<li id="' oid '_Properties" style="font-style: ' _propertyStyle() ';"><a href="#' oid '_PropertiesTable">Properties</a></li>' newline
+'		<li id="' oid '_Dictionary" style="font-style: ' _dictionaryStyle() ';"><a href="#' oid '_DictionaryTable">Dictionary</a></li>' newline
+'	</ul>' newline
+'</div>' newline
+'<div class="ItemBody" id="' oid '_PropertiesTable">' newline
+'<noscript>
+<b>' id%trunc80%xml '</b> properties:<br />
+</noscript>' newline
+subreport '__Table HTML' run
+_propsDeeplyInHTML(subreport '_id and oid' run)
+'</table><br />
+</div>' newline
+'<div class="ItemBody" id="' oid '_DictionaryTable">' newline
+'<noscript>
+<b>' id%trunc80%xml '</b> dictionary:<br />
+</noscript>' newline
+@documentation_needed = ''
+foreach .() unique type
+{	do :() 
+	{	if containers = 'Documentation' or containers = 'Description' then 
+			@documentation_needed = 'T' 
+		endif
+	}
+}
+subreport '__Table HTML' run 
+'<tr><th>Object</th><th>Type of object</th>' 
+if @documentation_needed then '<th>Documentation</th>' endif 
+'</tr>' newline
+foreach .() 
+{
+	'<tr><td valign="top">' newline
+	'<a href="#' oid '">'
+	if id = '' then '&nbsp;'
+		else id%trunc80%xml
+	endif
+	'</a>&nbsp;<br /></td><td valign="top"> ' type%xml '&nbsp;</td>' newline
+	if @documentation_needed then
+		$doc = :Documentation
+		if not $doc then 
+			$doc = :Description 
+		endif
+		'<td valign="top" style="white-space: pre-wrap;">' if $doc then $doc%xml else '&nbsp;' endif '</td>'
+	endif
+	'</tr>'
+	newline
+}
+'</table><br />' newline
+'</div></div>' newline
+endreport

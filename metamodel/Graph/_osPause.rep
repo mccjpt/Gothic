@@ -1,0 +1,13 @@
+_osPause(@prompt)
+/* Note that @prompt can only be used on DOS if you have included :pause with _vcsHeader() */
+if sep = '\' then
+	if @prompt then
+		'call :pause ' dowhile @prompt {id '!\n!'}
+	else
+		'pause'
+	endif
+else
+	if not @prompt then @prompt = 'Press any key to continue . . . ' endif
+	@nl='''$''\n'''
+	'read -n 1 -rsp ''' dowhile @prompt {to ''' $''"''"''' translate id endto @nl ''''}
+endif

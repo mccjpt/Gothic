@@ -1,0 +1,140 @@
+Report '_translators'
+/* Some useful translators */
+
+to '%upper
+a-z A-Z'
+endto
+
+to '%lower
+A-Z a-z'
+endto
+
+/* make a legal variable name by mapping non-alphanumerics to underscore */
+to '%var
+a-zA-Z0-9 *
+* _'
+endto
+
+/* translate to legal XML text or attribute value */
+to '%xml
+& $&amp;
+< $&lt;
+> $&gt;
+" $&quot;
+	 $&#x9;
+\
+ $&#xD;'
+endto
+
+/* indent one level by translating newline to newline + tab */
+to '%indent
+\
+ $\
+	' endto
+
+/* remove one level of tab indentation */
+to '%outdent
+$\
+	 $\
+'
+endto
+
+/* remove all tab indentation (tabs after a line break) */
+to '%undent
+/(\r|\n|\f)\t+/ $\
+'
+endto
+
+/* throw away all output (useful when you want $var++ to be silent) */
+to '%null
+* $'
+endto
+
+/* make into a wildcard '*xxx*' (useful for quick =~ comparisons) */
+to '%wild
+/^(.*)$/ $\*$1\*'
+endto
+
+/* make into a space-separated wildcard '* xxx *' (e.g. =~ oid%wildsp) */
+to '%wildsp
+/^(.*)$/ $\*\ $1\ \*'
+endto
+
+/* make into a newline-separated wildcard (e.g. for content with spaces) */
+to '%wildnl
+/^(.*)$/ $\*\
+$1\
+\*'
+endto
+
+/* replacing the illegal characters from Windows legal filename */
+to '%file
+\/?\\:\*"|<> $_'
+endto 
+
+/* Translates space into newline */
+to '%spaceToNewline
+\  \
+'
+endto
+
+/* Truncate strings longer than 80 characters with ... */
+to '%trunc80
+/^(.{,77}).....*$/ $$1...'
+endto
+
+/* escape RTF special characters */
+to '%rtf
+\\ $\\\\
+{ $\\{
+} $\\}
+'
+/* To also translate newlines & tabs (not always desirable), uncomment:
+'\
+ $\\par\
+
+	 $\\tab'
+*/
+endto
+
+/* Define translators for parsing an ini line */
+to '%iniKey
+/([^=]+)=(.*)/ $$1'
+endto
+
+to '%iniValue
+/([^=]+)=(.*)/ $$2'
+endto
+
+/* Split a string into a character per line. '@£§' must not be in string
+	1) convert newlines to @£§, 2) convert each char to newline + char, 
+	3) remove the initial newline, 4) convert @£§ back to newline 
+*/
+to '%chars
+\' newline ' $@£§
+/./ $\' newline '$0
+/^' newline '/ $
+$@\' newline '£\' newline '§ $'
+endto 
+
+/* Map a single character to its numeric value, e.g. 5->5, f->15 */
+to
+	'%val' newline
+	'0-9 *' newline
+	@ix = '10'
+	do 'abcdefghijklmnopqrstuvwxyz*'%chars
+	{	id ' $' @ix++ newline
+	}
+endto
+
+/* Map a decimal value from 0-35 into a single character, e.g. 5->5, 15->f */
+to
+	'%char' newline
+	'0-9 *' newline
+	@ix = '10' 
+	do 'abcdefghijklmnopqrstuvwxyz'%chars
+	{	'$' @ix++ ' $' id newline
+	}
+endto
+
+endreport

@@ -1,0 +1,22 @@
+Report '_Object properties in RTF'
+foreach .()
+{	
+	'\s3{{\*\bkmkstart o' oid '}' id%trunc80%rtf '{\*\bkmkend o' oid '}: ' type%rtf '{\par}}\pard\plain' newline
+	'{\keep\keepn Properties:\par}' newline
+	@propertiesFound = 'F'
+	do :() {	@propertiesFound = 'T' }
+	if @propertiesFound = 'T' then
+		'\trowd \trgaph105'
+		subreport '_RTF table cell definitions' run	'\cellx2500'
+		subreport '_RTF table cell definitions' run	'\cellx9700\pard\plain'
+		_propsDeeplyInRTF()
+	else
+		'none \par'
+	endif
+	'\pard {\par}' newline
+	subreport '_Relationships in RTF' run
+	subreport '_Links in RTF' run
+}
+_reportExtraObjectsInRTF()
+
+endreport

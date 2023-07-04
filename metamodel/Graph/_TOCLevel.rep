@@ -1,0 +1,32 @@
+_TOCLevel(@visitedVariableName, @branchGraphs)
+
+@visitedGraphs = __(variable @visitedVariableName read)
+if not @visitedGraphs =~ oid%wildsp then
+	variable @visitedVariableName append oid ' ' close
+	
+	if @branchGraphs =~ oid%wildsp then 
+		@subgraphOids = '' /* Cut off to prevent infinite recursion */
+	else
+		@subgraphOids = _subgraphOids() 
+	endif
+
+	'<table border="0" cellspacing="0" cellpadding="0"><tr>' newline
+	_tdsForBranchLevel($branchLevel)
+	'<td class="empty">'
+	if @subgraphOids then
+		'<img src="images/closed_subfolder.png" id="branchIcon' $++branchCount '" onclick="toggleBranchVisibility('''$branchCount''');">'
+	endif
+	'</td>'
+	'<td><A HREF="' subreport '_id and oid' run '.html" target="contentPage">' newline
+	@idAndType = __(id ' <' type '>')
+	'<img src="images/folder.png" alt="' @idAndType%xml '" width="18" height="16" border ="0"></A></td>' newline
+	'<td nowrap ><A HREF="' subreport '_id and oid' run '.html" target="contentPage">' id%xml '</A></td>' newline
+	'</tr></table>' newline
+	if @subgraphOids then 
+		'<div id="branch' $branchCount '">' newline
+		$branchLevel++%null
+		_graphsWithIconsInHTML(@branchGraphs oid ' ', @subgraphOids) 
+		$branchLevel--%null
+		'</div>' newline
+	endif
+endif

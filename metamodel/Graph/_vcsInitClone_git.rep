@@ -1,0 +1,6 @@
+_vcsInitClone_git()
+'
+git clone'
+' --config credential.helper=' _vcs_git_cred()
+' --config core.autocrlf=' _vcs_git_autocrlf() 
+' ' $gitProjectURL ' || '_osPause()

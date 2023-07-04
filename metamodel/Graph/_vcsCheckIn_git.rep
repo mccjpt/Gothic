@@ -1,0 +1,75 @@
+_vcsCheckIn_git()
+if $gitProjectURL and $vcsRebase then 
+'
+git remote update || ' _osPause() 
+if sep = '\' then
+'
+for /f "tokens=*" %%i in (''git rev-parse @'') do set LOCALVER=%%i || ' _osPause() '
+for /f "tokens=*" %%i in (''git rev-parse @{u}'') do set REMOTEVER=%%i || ' _osPause() '
+for /f "tokens=*" %%i in (''git merge-base @ @{u}'') do set BASEVER=%%i || ' _osPause() '
+' _osRem('Compare local VCS with remote VCS, rebase on latest if necessary') '
+if "%LOCALVER%"=="%REMOTEVER%" (
+	echo Local .git up to date
+) else (
+	if "%LOCALVER%"=="%BASEVER%" (
+		echo Want to publish after latest remote version and based on it
+		git reset --soft origin/master || ' _osPause() '
+	) else (
+		if "%REMOTEVER%"=="%BASEVER%" (
+			echo Need to push; will happen after commit anyway
+		) else (
+			echo Diverged: solve manually
+			exit /B 2
+)	)	)
+'
+else
+'
+export LOCALVER=`git rev-parse @` || ' _osPause() '
+export REMOTEVER=`git rev-parse @{u}` || ' _osPause() '
+export BASEVER=`git merge-base @ @{u}` || ' _osPause() '
+# Compare local VCS with remote VCS, rebase on latest if necessary
+if [ "$LOCALVER" == "$REMOTEVER" ]; then
+	echo Local .git up to date
+else
+	if [ "$LOCALVER" == "$BASEVER" ]; then
+		echo Want to publish after latest remote version and based on it
+		git reset --soft origin/master || ' _osPause() '
+	else
+		if [ "$REMOTEVER" == "$BASEVER" ]; then
+			echo Need to push - will happen after commit anyway
+		else
+			echo Diverged: solve manually
+			exit 2
+		fi
+	fi
+fi
+'
+endif
+endif
+'
+git add -A || ' _osPause() newline
+
+_osRem('Use a temporary file so we can filter out uninteresting commit output') 
+if sep = '\' then
+'
+git commit -F "%mepath%\vcsComment.txt" >commitOutput.tmp 2>&1
+if errorlevel 1 (
+	type commitOutput.tmp && del commitOutput.tmp && ' _osPause() '
+) else (
+	type commitOutput.tmp | find /V "' $dbBackupName '/" && del commitOutput.tmp
+)
+'
+else
+'
+git commit -F "$mepath/vcsComment.txt" >commitOutput.tmp 2>&1
+if [ $? -ne 0 ]; then
+	cat commitOutput.tmp && rm commitOutput.tmp && ' _osPause() '
+else
+	cat commitOutput.tmp | grep -v "' $dbBackupName '/" && rm commitOutput.tmp
+fi
+'
+endif
+
+if $gitProjectURL then 
+	'git push -u --force-with-lease origin master || ' _osPause() newline
+endif

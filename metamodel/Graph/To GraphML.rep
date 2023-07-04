@@ -1,0 +1,28 @@
+Report 'To GraphML'
+_translators()
+
+/* Checks that graphs don't form a a cycle */
+_CheckCyclicPath()
+
+if $cycleReported <> 'T' then
+
+	filename subreport '_default directory' run id%file '.xml' write
+		_graphMLheader()
+		
+		$visited = __(newline)	
+		@allKeys = _graphMLmetaKeys()
+		'  <key id="nodelabel" for="node" attr.name="label"/>' newline
+		'  <key id="edgelabel" for="edge" attr.name="label"/>' newline	
+		do @allKeys where id unique id {id newline}
+		
+		$visited = __(newline)
+		_graphMLdata(oid)
+	
+		_graphMLfooter()
+	close
+	
+	external '"' subreport '_default directory' run  id%file '.xml"' execute
+
+endif
+
+endreport

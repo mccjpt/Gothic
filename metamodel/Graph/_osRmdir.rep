@@ -1,0 +1,7 @@
+_osRmdir(@dir)
+if sep = '\' then
+	'rd /s /q '
+else
+	'rm -rf '
+endif
+'"' @dir '"'

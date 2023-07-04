@@ -1,0 +1,5 @@
+_relationshipStyle()
+
+@style = 'italic'
+do >() { @style = 'normal' }
+@style

@@ -1,0 +1,8 @@
+_vcsGraphSnapshot()
+/* A textual representation of this graph for comparison between versions */
+_translators()
+
+@indent = ''
+_vcsOutputNonProperty(@indent)
+_vcsOutputObjects(@indent)
+_vcsOutputBindings(@indent)

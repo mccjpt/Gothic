@@ -1,0 +1,10 @@
+_CheckCyclicPath()
+
+/* Checks that graphs are not reused so that a cycle if formed */
+local 'path' write ' ' oid ' ' close /* path variable contains all the accessed graph oids separated with whitespace */
+$cycleReported = ''
+
+foreach .() 
+{	do decompositions 
+	{ 	_CheckCyclicPathNext(@path) /* navigates the hierarchy further */ }
+}

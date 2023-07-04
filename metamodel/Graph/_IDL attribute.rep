@@ -1,0 +1,11 @@
+Report '_IDL attribute'
+'	'
+if :Data type; = '' then '// Please specify data type ' endif
+if :Data type; <> 'enum' then 'attribute ' endif
+:Data type; ' ' :Name ';'
+if :Documentation; <> '' then 
+	'	//'
+	dowhile :Documentation; {id ' '}
+endif
+newline
+endreport

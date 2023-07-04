@@ -1,0 +1,11 @@
+Report 'Dictionary'
+/* This report lists all objects, and their "Documentation" property for those that have one */
+foreach .() 
+{	'''' id ''' <' type '>'
+	newline
+	if :Documentation; then
+		do :Documentation; { '	' id newline }
+	endif
+	newline
+}
+endreport

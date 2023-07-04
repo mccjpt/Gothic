@@ -1,0 +1,5 @@
+_vcs_git_cred()
+if sep = '\' then 
+	'wincred' 
+else '''cache --timeout=28800''' 
+endif

@@ -1,0 +1,6 @@
+_vcsWorkingDir()
+/* Used by MetaEdit+ itself, do not delete if you intend to use version control systems */
+/* Outputs the VCS working directory */
+
+_vcsPaths()
+$vcsWorkingDir

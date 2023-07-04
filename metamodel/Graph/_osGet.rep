@@ -1,0 +1,6 @@
+_osGet(@name)
+if sep = '\' then
+	'%' @name '%'
+else
+	'$' @name
+endif

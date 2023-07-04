@@ -1,0 +1,14 @@
+_vcsCheckIn_svn()
+if sep = '\' then /* .bat */
+'
+TortoiseProc /command:commit /path:"' $vcsWorkingDir '" /logmsgfile:"%mepath%\vcsComment.txt" /closeonend:3 || ' _osPause() '
+'
+else
+/* Use svn status, sed and xargs to tell svn about files that are no longer present. First -e gets rid of all lines except those for deleted files. Second -e removes spaces (or other status characters) at start of lines */
+'
+svn add * --force || ' _osPause() '
+svn status | sed -E -e ''/^!/!d'' -e ''s/^!.{6} //'' | xargs -d \\n -r svn delete
+svn commit --file "$mepath/vcsComment.txt" || ' _osPause() '
+svn update || ' _osPause() '
+'
+endif

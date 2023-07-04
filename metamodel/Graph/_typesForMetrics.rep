@@ -1,0 +1,10 @@
+_typesForMetrics(@myType)
+/* Reports the number of element types found from this model */
+do @myType {
+	variable 'listvar' write variable id '_types' read close
+	do $listvar where id <> '' {
+		'	' id ': '	
+		math variable id '_' @myType read evaluate 
+		' <' id;1; '>' newline 
+	}
+}

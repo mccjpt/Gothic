@@ -1,0 +1,22 @@
+Report '_graph information in RTF'
+if not $Graphs =~ oid%wildsp then
+	variable 'Graphs' append oid ' ' close
+	'{\page}' newline
+	subreport '_Dictionary in RTF' run
+	subreport '_Object properties in RTF' run
+	/* Subgraphs */
+	foreach .()
+	{
+		if decompositions then
+			dowhile decompositions {
+				subreport '_graph information in RTF' run 
+			}
+		endif
+		if explosions then
+			dowhile explosions {
+				subreport '_graph information in RTF' run 
+			}
+		endif
+}
+endif
+endreport

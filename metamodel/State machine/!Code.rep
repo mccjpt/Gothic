@@ -1,0 +1,31 @@
+!Code()
+
+do _events() where id unique id {
+	'Event ' :Name ' = new Event("' :Name '", "' :Code '");' newline
+}
+newline
+
+do _commands()  where id unique id {
+	'Command ' :Name 'Cmd = new Command("' :Name '", "' :Code '");' newline
+}
+newline
+
+foreach .State; {
+	'State ' id 'State = new State("' id '");' newline
+} newline
+
+
+foreach .State; {
+	do :Command {
+		id;1 'State.addAction(' :Name 'Cmd);' newline
+	}
+	do ~Source>Transition {
+		id;1 'State.addTransition('
+		do :Trigger {:Name} ', '
+		do ~Target.() {id}
+		'State);' newline
+	}
+	newline
+}
+
+

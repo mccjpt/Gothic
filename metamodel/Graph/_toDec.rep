@@ -1,0 +1,16 @@
+_toDec(@number, @base)
+/* Outputs @number in decimal. _translators() must have been run first.
+	@number is in hex, or explicit @base if supplied, e.g. _toDec('1010', '2')
+*/
+
+if not @base then @base = '16' /* hex by default */ endif
+@total = '0'
+@factor = '1'
+do @number%lower%chars
+{	@val = id%val
+	if @val >= @base num then 
+		prompt 'ERROR: illegal digit ' id ' in base ' @base ask 
+	endif
+	@total = __(math @total '*' @base '+' @val evaluate)
+}
+@total

@@ -1,0 +1,7 @@
+_vcsDebug()
+if $vcsDebug then
+	'set xcopyDisplay=F' newline /* Full file names */
+else
+	'@echo off' newline
+	'set xcopyDisplay=Q' newline /* Quiet */
+endif

@@ -1,0 +1,31 @@
+Report 'Object Connections'
+'LIST OF OBJECTS AND THEIR CONNECTIONS (graph: ' id ')'
+newline
+foreach .()
+{	newline
+	'''' id ''' <' type '>'
+	if not ~() then 
+		' takes part in no relationships'
+		newline
+	else
+		' takes part in relationship(s):'
+		newline
+		dowhile ~()
+		{	'	'
+			do >()
+			{	if id then '''' id ''' ' endif
+				'<' type '>'
+			}
+			' with object(s) '
+			dowhile ~().()
+			{	if id then '''' id ''' ' endif
+				'<'
+				type
+				if 'always true' then '>' endif
+				', '
+			}
+			newline
+		}
+	endif
+}
+endreport

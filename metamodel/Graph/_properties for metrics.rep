@@ -1,0 +1,9 @@
+Report '_properties for metrics'
+/* Goes through all the properties */
+do :() {
+	$all_properties++%null
+	if id <> '' then
+		$used_properties++%null
+	endif
+}
+endreport

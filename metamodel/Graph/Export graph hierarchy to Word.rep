@@ -1,0 +1,9 @@
+Report 'Export graph hierarchy to Word'
+/*	Creates Word documentation for the graph which also follows its submodel hierarchy (decompositions & explosions) */
+subreport '_translators' run
+if $starting_graph = '' then 
+	$starting_graph=id
+	$Graphs=' '
+endif
+subreport '_document definitions' run 
+endreport

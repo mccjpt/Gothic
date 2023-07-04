@@ -1,0 +1,16 @@
+Report 'XML'
+/* Write the graph and its objects to XML */
+subreport '_translators' run
+
+'<' type%var '>' newline
+foreach .() 
+{	'	<' type%var
+	do :() 
+	{	' ' type%var '="' id%xml '"'}
+	'/>' newline
+}
+'</' type%var '>' newline
+
+/* This generator is deliberately naive to help new users learn MERL. 
+To improve it, consider recursing to subgraphs or if property value metatype is Object */
+endreport

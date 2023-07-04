@@ -1,0 +1,13 @@
+Report '_C++ attribute'
+'		'
+if :Data type; = '' then
+	'// Please specify data type '
+else :Data type; ' '
+endif
+:Name; ';'
+if :Documentation; <> '' then 
+	'		// '
+	dowhile :Documentation; {id ' '}
+endif
+newline
+endreport

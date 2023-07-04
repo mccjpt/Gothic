@@ -1,0 +1,2 @@
+_vcsPreCheckIn_git()
+/* Git does not need this: it does its rebasing in _vcsCheckIn_git */

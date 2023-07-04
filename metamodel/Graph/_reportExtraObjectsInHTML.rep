@@ -1,0 +1,6 @@
+_reportExtraObjectsInHTML()
+/* Reports all the extra objects in the model */
+if $extraObjects <> ' ' then
+	do $extraObjects%spaceToNewline 
+	{	variable id '_html' read }
+endif

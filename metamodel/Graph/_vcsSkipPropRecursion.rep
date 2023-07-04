@@ -1,0 +1,3 @@
+_vcsSkipPropRecursion()
+/* By default, skip the same properties as in HTML and Word generation */
+_skipPropRecursion()

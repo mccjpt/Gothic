@@ -1,0 +1,12 @@
+_typesForMetricsTotal(@metaType, @type, @countOfType)
+/* Update totals for this type across all graphs */
+if __Unique(@type, @metaType '_types') then
+	variable 'all_' @metaType '_types' append @type newline close
+endif
+local 'totVar' write 'total_' @type '_' @metaType close
+variable @totVar append close 
+variable @totVar write 
+	math
+		variable @totVar read '+' @countOfType
+	evaluate
+close

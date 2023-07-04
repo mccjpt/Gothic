@@ -1,0 +1,8 @@
+Report 'Object List'
+'LIST OF OBJECTS (graph: ' id ')'
+newline
+foreach .()
+{	newline
+	'''' id ''' <' type '>'
+}
+endreport

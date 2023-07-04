@@ -1,0 +1,12 @@
+_osSet(@name, @value)
+if sep = '\' then
+	'set "' @name '=' 
+	to '\% $\%\%' translate @value endto '"'
+	/* Note the double quotes around "@name=@value": without those, we also need to escape ^< ^| ^> ^& ^^. osGet should be used inside double quotes. There is no way to escape ". NB variable substitution happens before parsing, whereas in bash variable substitution happens after parsing */
+else
+	'export ' @name '='
+	'''' 
+	to ''' $''"''"''' translate @value endto
+	''''
+	/* There is no way to escape a single quote in a single-quoted string in bash, so close the single quoted string, put the single quote inside double quotes, and reopen the single-quoted string: 'it'"'"'s' */
+endif

@@ -1,0 +1,27 @@
+Report '_Relationships in HTML'
+'<noscript>
+<b>' id%trunc80%xml '</b> relationships:<br />
+</noscript>' newline
+if not ~() then 
+	'none<br /><br />' newline
+else 
+	subreport '__Table HTML' run '<tr><th>In role</th><th>In relationship</th><th>With object(s)</th><th>In role</th></tr>' newline
+	do ~()
+	{	'<tr><td>' subreport '__id and type' run '&nbsp;</td>'
+		do >()
+		{	'<td>' subreport '__id and type' run '&nbsp;</td>' 
+		}
+		dowhile ~()
+		{	do .() 
+			{	'<td><a href="#' oid '">' 
+				if id then id%trunc80%xml else '&nbsp;' endif 
+				'</a>&nbsp;</td>' 
+			}
+			'<td>' subreport '__id and type' run ' &nbsp;</td></tr><tr><td colspan="2">&nbsp;</td>'
+		}
+		newline
+		'</tr>'
+	}
+	'</table><br />' newline
+endif
+endreport

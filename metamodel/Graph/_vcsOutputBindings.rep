@@ -1,0 +1,30 @@
+_vcsOutputBindings(@indent)
+/* Outputs bindings in the graph */
+foreach >() orderby type, objectid num
+{	_vcsOutputNonProperty(@indent)
+	
+	do explosions orderby type, objectid
+	{	'	Explode to: ' id ' <' type '>' newline
+	}
+	
+	do ~()
+	{	'  Role: ' id ' <' type '>'
+		do #()
+		{	'  Port: ' 
+			if metatype='Port' then 
+				id ' <' type '>'
+			else	
+				'<' type '> ' oid
+			endif
+		}
+		do .()
+		{	'  Object: <' type '> ' oid
+		}
+		newline
+		_vcsOutputProperties(@indent)
+
+		do explosions orderby type, objectid
+		{	'	Explode to:  ' id ' <' type '>' newline
+		}	
+	}
+}

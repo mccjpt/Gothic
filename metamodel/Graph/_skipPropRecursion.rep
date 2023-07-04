@@ -1,0 +1,4 @@
+_skipPropRecursion()
+if _nonRecursingPropertyTypes() =~ type%wildnl then
+	'T'
+endif

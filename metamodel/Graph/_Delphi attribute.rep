@@ -1,0 +1,12 @@
+Report '_Delphi attribute'
+'		'
+if :Data type; then
+	:Name; ': ' :Data type; ';'
+else 
+	'{' :Name; ': data type unspecified}'
+endif
+if :Documentation; then
+	'	{' dowhile :Documentation; {id ' '} '}'
+endif
+newline
+endreport

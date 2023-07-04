@@ -1,0 +1,6 @@
+Report '_imagemap_href'
+'href="#' oid '" '
+'alt="' id 
+if id <> type then ': ' type endif
+'"'
+endreport

@@ -1,0 +1,17 @@
+_vcsCheckOut_svn(@dbDir)
+/* Check out the old version, copy it to a new repository, then revert to the HEAD */
+if sep = '\' then /* .bat */
+'
+TortoiseProc.exe /command:update /rev /path:"' $vcsWorkingDir '" /closeonend:3
+'
+else /* Bash */
+'
+svn log -q --limit 20 | sed -E ''/^-{72}$/d''
+read -p "Enter version to check out (without the r prefix): " svnVersion
+svn checkout -r "$svnVersion" ' $svnProjectURL ' "' $vcsWorkingDir '" || ' _osPause() '
+'
+endif
+
+_vcsRestoreDB(@dbDir) '
+svn update
+'

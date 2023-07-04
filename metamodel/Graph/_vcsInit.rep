@@ -1,0 +1,16 @@
+_vcsInit()
+/* Makes an empty working directory with VCS, and links it to a new empty VCS project (creating the project in SVN but assuming it exists in git) */
+
+_vcsPaths()
+
+/* Output the check-in script */
+filename $initScript write
+_vcsHeader()
+_osMkdir($vcsWorkingDir) ' || ' _osPause() newline
+_osCd(   $vcsWorkingDir) ' || ' _osPause() newline
+
+subreport '_vcsInit_' $vcs run
+
+close
+
+external $initScript execute

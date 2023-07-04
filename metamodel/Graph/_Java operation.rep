@@ -1,0 +1,17 @@
+Report '_Java operation'
+if :Documentation; then 
+	do :Documentation; { '	// ' id newline}
+endif
+'	' 
+:Access level; ' '
+if :Method type; = 'class'  then 'static ' endif
+if :Return type; = '' then 'void '
+	else :Return type; ' '
+endif
+id
+'(' dowhile :Parameter list; {:Data type; ' ' :Parameter; ', '} ') {'
+newline
+do :Method body; {'		' id newline}
+'	}'
+newline newline
+endreport

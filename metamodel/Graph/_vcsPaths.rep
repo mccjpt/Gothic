@@ -1,0 +1,97 @@
+_vcsPaths(@dbNameOverride)
+
+_translators()
+/* Choose git or svn (lower-case) */
+$vcs = 'git'
+
+/* $dbName is the name of the repository, used to form VCS paths. 
+		It normally matches the name of the current repository, but this 
+		is not obligatory. Set it explicitly by replacing the whole line.
+	$dbBaseDir is the MetaEdit+ repository root directory, 
+		of which each repository is a subdirectory
+		- In single user MetaEdit+, this is normally a dot, 
+		  making paths relative to your MetaEdit+ directory, 
+	 	  by default %USERPROFILE%\Documents\MetaEdit+ 5.5
+		- In multi-user MetaEdit+, this is almost always an absolute UNC path
+		  like \\MESERVER\meshare 
+*/
+$dbName = 'Gothic' /* __(internal 'dbName' read) /* Replace whole line: $dbName='demo' */
+$dbBaseDir = '.'
+
+/* The repository copy and snapshots will be made in 
+		the VCS working directory, $vcsWorkingDir, 
+		where vcs is git, svn etc. depending on $vcs above
+	$git/svnBaseDir is the base directory for all such directories. Each 
+		MetaEdit+ repository is a subdirectory automatically called $dbName.
+*/
+$gitBaseDir = 'X:\git'
+$svnBaseDir = 'X:\svn\svn_working'
+
+/*	$gitBaseURL is a parent directory for multiple remote git repositories, 
+		each corresponding to one MetaEdit+ repository. Leave it as 
+		an empty string if you do not want to link to a remote repository.
+		If you set it, you must manually create each remote git repository.
+	$svnBaseURL is the SVN repository to use (it must already exist). 
+		We assume an SVN repository is for multiple SVN projects, 
+		each corresponding to one MetaEdit+ repository.
+	As above, edit the $git/svnBaseURL, and the $git/svnProjectURL 
+		will be built automatically later based on that and $dbName
+*/
+$gitBaseURL = '' /* E.g. 'https://github.com/USER_OR_ORGANIZATION_NAME' or 'https://USERNAME@bitbucket.org/USERNAME' */
+$svnBaseURL = 'file:///X:/svn/svn_repos'
+
+/* Locations of executables, edit to match your setup */
+$gitExeDir = 'C:\Program Files\Git\cmd'
+$svnExeDir = '' /* SVN installation adds itself to the path */
+$7zipExe = 'C:\Program Files\7-Zip\7z.exe'
+$use7zip = '' /* Non-empty = zip, Empty = don't zip (generally results in smaller VCS) */
+$metaeditExe = 'C:\Program Files (x86)\MetaEdit+ 5.5\mep55.exe'
+
+/*	$vcsDebug turns on echoing for all batch commands if non-empty 
+	$dbBackupName normally need not be changed. 
+		It is the directory name of the temporary repository 
+		created when versioning and the name of the repository in the 
+		working directory. This normally need not be changed.
+	$vcsRebase normally need not be changed.
+		For the multi-user version, it is true (non-empty) to make sure that 
+		each version is interpreted to follow the most recent version, 
+		even if that was made by another user.
+*/
+$vcsDebug = ''
+$dbBackupName = 'versionedDB'
+$vcsRebase = __(if __(internal 'versionVerbose' read) =~ '* Multi-User *' then 'T' endif) /* Empty for single user, non-empty for multi-user */
+
+
+/*	Allow all above settings to be overridden by those in the .vcsPaths file, 
+	so we can keep the same settings in the MetaEdit+ repository 
+	but allow each VCS user to override with local paths if needed
+*/
+if __(internal 'exists: .vcsPaths' read) then
+	do __(filename '.vcsPaths' read) where not id =/ '|^#.*'
+	{	variable id%iniKey write id%iniValue close
+	}
+endif
+
+/* Allow an argument to override $dbName from here and .vcsPaths */
+if @dbNameOverride then 
+	$dbName = @dbNameOverride
+endif
+
+$initScript			= __($vcs 'Init.bat')
+$initCloneScript	= __($vcs 'InitClone.bat')
+$preCheckInScript	= __($vcs 'PreCheckIn.bat')
+$checkInScript		= __($vcs 'CheckIn.bat')
+$checkOutScript	= __($vcs 'CheckOut.bat')
+$syncScript			= __($vcs 'Sync.bat')
+
+$gitWorkingDir = __($gitBaseDir sep $dbName)
+$svnWorkingDir = __($svnBaseDir sep $dbName)
+
+$gitProjectURL = __(if $gitBaseURL then $gitBaseURL '/' $dbName '.git' endif)
+$svnProjectURL = __(if $svnBaseURL then $svnBaseURL '/' $dbName endif)
+
+$vcsBaseDir = __(variable $vcs 'BaseDir' read)
+$vcsWorkingDir = __(variable $vcs 'WorkingDir' read)
+$vcsExeDir = __(variable $vcs 'ExeDir' read)
+
+$dbBackupDir = __($vcsWorkingDir sep $dbBackupName)

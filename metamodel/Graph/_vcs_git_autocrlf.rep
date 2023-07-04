@@ -1,0 +1,3 @@
+_vcs_git_autocrlf()
+/* We want text files (.txt and .rep) on the local disk to be in native format, and in a consistent format in a remote repository (we choose git's default of LF there). We want a setting per git repository, not part of the versioned files, so it can be different for a user on a CRLF platform rather than a LF platform. Luckily CRLF equates to \ directory separator */
+if sep = '\' then 'true' else 'input' endif

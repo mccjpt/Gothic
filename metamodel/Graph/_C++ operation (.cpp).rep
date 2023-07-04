@@ -1,0 +1,14 @@
+Report '_C++ operation (.cpp)'
+if :Return type; = '' then 'void'
+	else :Return type; endif
+	' ' id;1 '::' id
+	' (' dowhile :Parameter list; {:Data type; ' ' :Parameter; ', '} ')'
+	newline
+	if :Documentation; <> '' then
+		do :Documentation; {'// ' id newline}
+	endif
+	'{' newline
+	do :Method body;  {'	' id newline }
+	'}'
+	newline newline
+endreport

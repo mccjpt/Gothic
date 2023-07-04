@@ -1,0 +1,7 @@
+_vcsPreCheckIn()
+/* Run any VCS commands needed before emptying vcsWorkingDir */
+
+/* Set paths for executables and versioning target */
+_vcsPaths()
+
+subreport '_vcsPreCheckIn_' $vcs run 

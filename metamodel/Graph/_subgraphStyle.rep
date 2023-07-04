@@ -1,0 +1,7 @@
+_subgraphStyle()
+
+@style = 'italic'
+if decompositions or explosions then
+	@style = 'normal'
+endif
+@style

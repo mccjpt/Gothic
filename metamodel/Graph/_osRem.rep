@@ -1,0 +1,6 @@
+_osRem(@comment)
+if sep = '\' then
+	'rem ' @comment
+else
+	'#' @comment
+endif

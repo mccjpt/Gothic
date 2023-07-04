@@ -1,0 +1,7 @@
+_osDel(@file)
+if sep = '\' then
+	'del'
+else
+	'rm'
+endif
+' "' @file '"'

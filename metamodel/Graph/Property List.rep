@@ -1,0 +1,15 @@
+Report 'Property List'
+'LIST OF OBJECTS'' PROPERTIES (graph: ' id ')'
+newline
+foreach .()
+{	newline 
+	'''' id ''' <' type '>'
+	newline
+	do :()
+	{	if id;1 <> id then 
+			'	"' containers '": ' id
+			newline
+		endif
+	}
+}
+endreport

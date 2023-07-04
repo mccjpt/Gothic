@@ -1,0 +1,3 @@
+_nonRecursingPropertyTypes()
+/*	List of property types not to recurse into in HTML and Word generation. 
+	One per line, list begins and ends with newline. */

@@ -1,0 +1,61 @@
+_CheckCyclicPathNext(@path)
+if not @path =~ oid%wildsp; then
+	local 'path' append oid ' ' close /* In case graph is not accessed earlier, it will be added to path variable */
+	foreach .() 
+	{ 	do decompositions 
+		{	_CheckCyclicPathNext(@path) }
+	}
+else
+	if $cycleReported = '' then
+		@stackIx = '0'
+		$revStack = @sep = ''
+
+		/* Find the index for the stack */
+		dowhile stack { 
+			@stackIx = @++stackIx
+			@lastThisGraphIx = @stackIx 
+		}
+		
+		@stackIx2 = '1'
+		@cycleStart_oid = oid
+		$cycleEndReached = 'F'
+		do stack {
+			@current_oid = oid 
+			if (@stackIx2 <> '1') and (@cycleStart_oid = @current_oid) then
+				$cycleEndReached = 'T'
+			endif
+			
+			if (@stackIx2 < @lastThisGraphIx num) and ($cycleEndReached <> 'T') then
+				local 'myId' write id
+					if metatype = 'Object' then 
+						if type =~ '*Prototype' then
+							''
+						else
+							' <' type '>' 
+						endif
+					endif
+					if metatype = 'Graph' then 
+						' [' type ']' 
+					endif
+				close 
+				$revStack = __(@myId @sep $revStack)
+				local 'sep' write 
+					if metatype = 'Graph' then 
+						' ==> '
+					else
+						' --> '
+					endif
+				close
+				@stackIx2 = @++stackIx2
+			endif
+		}
+		/* Reporting the warning if cycle is found*/	
+		'Warning: Cyclic  hierarchy found (syntax: id <objectType>, id [GraphType], --> contains, ==> has a subgraph link): ' newline 	
+		id ' [' type '] --> ' $revStack 
+		if $LiveCheck <> 'F' then 
+			newline
+		endif
+		$cycleReported = 'T'
+		newline
+	endif
+endif

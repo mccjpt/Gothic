@@ -1,0 +1,9 @@
+_Project_Check()
+if projectid <> projectid;-1 and projectid <> projectid;1 then
+	if __Unique('Projects', oid) then
+		project '	' type '	' id '	{' 
+		@ix='0'
+		dowhile stack orderby @++ix num desc { metatype%first ' ' }
+		'}' newline
+	endif
+endif

@@ -1,0 +1,8 @@
+_graphMLattributes()
+
+do :() where not containers =~ '__*' {
+	@keyValue = containers
+	if id then /* properties without values are not exported */
+		'      <data key="' type;1%var  @keyValue%var '">' id%xml '</data>' newline
+	endif
+}

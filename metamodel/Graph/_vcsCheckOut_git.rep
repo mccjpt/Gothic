@@ -1,0 +1,15 @@
+_vcsCheckOut_git(@dbDir)
+/* Check out the old version, copy it to a new repository, then revert to the HEAD */
+newline
+if sep = '\' then
+	'git log -20 --pretty=format:"%%C(auto)%%h  %%<(70,trunc)%%s"' newline
+	'set /P githash=Enter hash to check out: ' newline
+	'git checkout -f %githash%' newline
+else
+	'git log -20 --pretty=format:"%C(auto)%h  %<(70,trunc)%s"' newline
+	'read -p "Enter hash to check out: " githash' newline
+	'git checkout -f $githash' newline
+endif
+_vcsRestoreDB(@dbDir) newline
+'git checkout -f master
+'

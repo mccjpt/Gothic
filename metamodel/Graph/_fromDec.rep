@@ -1,0 +1,11 @@
+_fromDec(@number, @base)
+/* Outputs decimal @number in new base @base, or hex if @base not supplied.
+	E.g. _fromDec('42', '2'). _translators() must have been run first.
+*/
+
+if not @base then @base = '16' /* hex by default */ endif
+@remainder = __(math @number '\\' @base evaluate)
+if @number >= @base num then
+	_fromDec(math @number '//' @base evaluate, @base)
+endif
+@remainder%char

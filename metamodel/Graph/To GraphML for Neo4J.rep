@@ -1,0 +1,34 @@
+Report 'To GraphML for Neo4J'
+/* Nep4j supports graphML import but does not cover all featurs of GraphML like hyperedges or ports. This generator produces a subset of graphML enabling importing, hyperedges and ports are treated as nodes in export */
+
+_translators()
+
+/* Checks that graphs don't form a a cycle */
+_CheckCyclicPath()
+
+if $cycleReported <> 'T' then
+
+	filename subreport '_default directory' run id%file '.graphml' write
+		_graphMLheader()
+		
+		$visited = __(newline)	
+		@allKeys = _graphMLmetaKeys()
+		'  <key id="nodelabel" for="node" attr.name="label"/>' newline
+		'  <key id="edgelabel" for="edge" attr.name="label"/>' newline	
+		'  <key id="direction" for="node" attr.name="direction"/>' newline		
+		do @allKeys where id unique id {id newline}
+		
+		'  <graph id="' oid '" edgedefault="directed">' newline		
+		$visited = __(newline)
+		_graphMLdataForNeo4j(oid)
+		$edges
+		'  </graph>' newline
+
+		_graphMLfooter()
+	close
+	
+	external '"' subreport '_default directory' run  id%file '.graphml"' execute
+
+endif
+
+endreport

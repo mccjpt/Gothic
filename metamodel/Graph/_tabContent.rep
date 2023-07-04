@@ -1,0 +1,37 @@
+_tabContent(@parentGraphId)
+'<div id="' oid '">'
+'<a name="' oid '"></a>' newline
+'<h3>' subreport '__id and type' run '</h3>'
+'<div class="Tab" id="Tab">' newline
+'	<ul class="Item">' newline
+'		<li id="' oid '_Properties" style="font-style: ' _propertyStyle() ';"><a href="#' oid '_PropertiesTable">Properties</a></li>' newline
+if metatype = 'Object' then
+	'		<li id="' oid '_Relationships" style="font-style: ' _relationshipStyle() ';"><a href="#' oid '_RelationshipsTable">Relationships</a></li>' newline
+	'		<li id="' oid '_Subgraphs" style="font-style: ' _subgraphStyle() ';"><a href="#' oid '_SubgraphsTable">Subgraphs</a></li>' newline
+endif
+	'	</ul>' newline
+'</div>' newline
+'<div class="ItemBody" id="' oid '_PropertiesTable">' newline
+'<noscript>
+<b>' id%trunc80%xml '</b> properties:<br />
+</noscript>' newline
+@propertiesFound = 'F'
+do :() { @propertiesFound = 'T' }
+if @propertiesFound = 'T' then
+	subreport '__Table HTML' run
+	_propsDeeplyInHTML(@parentGraphId)
+	'</table>' newline '<br />'
+else
+	'<br />none<br /><br />'
+endif	
+'</div>' newline
+if metatype = 'Object' then
+	'<div class="ItemBody" id="' oid '_RelationshipsTable">' newline
+	subreport '_Relationships in HTML' run
+	'</div>' newline
+	'<div class="ItemBody" id="' oid '_SubgraphsTable">' newline
+	subreport '_subgraphs in HTML' run
+	'</div>' newline
+endif
+'<br><a href="' @parentGraphId '.html">Graph properties</a>' newline
+'</div>' newline

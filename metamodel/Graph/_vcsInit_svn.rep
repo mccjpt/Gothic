@@ -1,0 +1,28 @@
+_vcsInit_svn()
+/* First write a file containing our auto-props, in parent dir */
+$svnAutoPropsFile = __($svnBaseDir '\auto-props.ini')
+filename $svnAutoPropsFile write
+/* graph .txt, metamodel.txt, generator .rep are UTF-8 with native line endings. Escape semicolon before charset by doubling it, http://subversion.tigris.org/issues/show_bug.cgi?id=2068
+Library symbol .mxs are XML files in UTF-8 with LF, their bitmaps are PNGs */
+'*.txt = svn:mime-type=text/plain;; charset=UTF-8;svn:eol-style=native
+*.rep = svn:mime-type=text/plain;; charset=UTF-8;svn:eol-style=native
+*.mxs = svn:mime-type=text/xml;; charset=UTF-8;svn:eol-style=LF
+*.png = svn:mime-type=image/png'
+close
+
+/* Return to writing batch file */
+'
+' _osRem('make sure project exists in SVN') '
+svn import ' $vcsWorkingDir ' ' $svnProjectURL ' --message "Imported new empty directory as basis for new project for MetaEdit+ repository ' $dbName '" || ' _osPause() '
+' _osRem('check out (empty) project over new dir to make this our working copy') '
+svn checkout ' $svnProjectURL ' ' $vcsWorkingDir ' || ' _osPause() '
+
+' _osRem('set up and commit auto-props') '
+svn propset svn:auto-props -F "' $svnAutoPropsFile '" .
+' _osMkdir($dbBackupName) '
+svn add "' $dbBackupName '"
+svn propset svn:auto-props "* = svn:mime-type=application/octet-stream" "' $dbBackupName '"
+svn propset svn:global-ignores "*.[t][to][tob]" "' $dbBackupName '"
+' _osDel($svnAutoPropsFile) '
+svn commit -m "Added auto-props"
+'

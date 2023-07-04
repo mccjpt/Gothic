@@ -1,0 +1,24 @@
+Report '_Delphi implementation'
+if :Method type; = 'class' then 'class ' endif
+if :Return type; then
+	'function '
+else  
+	'procedure '
+endif
+id
+'('
+dowhile :Parameter list; {:Parameter; ': ' :Data type; ', '}
+')'
+if :Return type; then
+	': ' :Return type;
+endif
+if :Protocol; = 'dynamic' then '; dynamic' endif
+if :Protocol; = 'virtual' then '; virtual' endif
+';' newline
+if :Documentation; then '{' :Documentation; '}' newline endif
+if :Method body; then 
+	:Method body;
+else 'begin' newline '	{Enter method body here}' newline 'end;'
+endif
+newline newline
+endreport

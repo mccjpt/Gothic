@@ -1,0 +1,44 @@
+_vcsCheckOut()
+/* Makes a new repository as a copy of an older version and starts a new MetaEdit+ to log into it, without affecting the VCS, this MetaEdit+ or this repository */
+
+/* Set paths for executables and versioning target */
+_vcsPaths()
+
+$newDBName = __(prompt 
+	'New MetaEdit+ repository name (not ' 
+	@dbNameNow = __(internal 'dbName' read)
+	@dbDirNow = __(internal 'dbDir' read)
+	@dbNameNow 
+	if not (@dbDirNow = @dbNameNow or @dbDirNow = __($dbBaseDir sep @dbNameNow)) then 
+		@dbNameNow ', ' 
+		if @dbDirNow =~ __('*' sep '*') then 'tail of ' endif
+		@dbDirNow 
+	endif
+	' or ' $dbBackupName ')' 
+	ask)
+$newDBDir = __($dbBaseDir sep $newDBName)
+
+/* Open the check-out script file for writing... */
+filename $checkOutScript write
+_vcsHeader()
+if sep = '\' then
+	'if not exist "' $newDBDir '" goto newDBOK' newline
+else
+	'if [ -d "' $newDBDir '" ]; then' newline
+endif
+_osPause('DANGER: ' $newDBDir ' already exists, about to delete - press Enter to continue, or press Ctrl+C and answer yes to abort')
+_osRmdir($newDBDir) '
+
+' if sep = '\' then ':newDBOK' else 'fi' endif '
+pushd "' $vcsWorkingDir '"
+'
+subreport '_vcsCheckOut_' $vcs arguments $newDBDir run
+'
+popd
+' if sep = '\' then 'start "" ' endif '"' $metaeditExe '" fileInPatches loginDB:user:password: "' $newDBName '" "' internal 'user' read '" "*"'
+
+/* ...and close the script file */
+close
+
+/* Execute the generated script file */
+external $checkOutScript execute

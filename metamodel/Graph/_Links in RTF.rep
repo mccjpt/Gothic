@@ -1,0 +1,37 @@
+Report '_Links in RTF'
+'\keep\keepn \b {' id%trunc80%rtf '} \b0' newline
+'{links:\par}' newline
+	'\trowd \trgaph109'
+	subreport '_RTF table cell definitions' run	'\cellx3500' newline
+	subreport '_RTF table cell definitions' run	'\cellx9700\pard\plain \intbl' newline
+	'\keep\keepn \b{Link type\cell Graph''s name\cell} \b0 \pard \intbl\ {\row }' newline
+		'\trowd \trgaph109'
+		'\clvertalt\clbrdrt\brdrs\brdrw10 \clbrdrl\brdrs\brdrw10 \clbrdrb\brdrs\brdrw10 \clbrdrr\brdrs\brdrw10'
+		newline '\cellx3500' newline
+		'\clvertalt\clbrdrt\brdrs\brdrw10 \clbrdrl\brdrs\brdrw10 \clbrdrb\brdrs\brdrw10 \clbrdrr\brdrs\brdrw10'
+		newline '\cellx9700\pard\plain \intbl \keep\keepn {Decomposition \cell}' newline
+	if decompositions
+	then 	
+		do decompositions
+		{
+		'{\field{\*\fldinst {HYPERLINK \\l "g' oid '" }}{\fldrslt \ul{' id%rtf '}}}' newline
+		}
+	else 	'{none}'
+	endif
+'{\cell }\pard \intbl {\row}' newline
+'\trowd \trgaph109'
+'\clvertalt\clbrdrt\brdrs\brdrw10 \clbrdrl\brdrs\brdrw10 \clbrdrb\brdrs\brdrw10 \clbrdrr\brdrs\brdrw10' newline '\cellx3500' newline
+'\clvertalt\clbrdrt\brdrs\brdrw10 \clbrdrl\brdrs\brdrw10 \clbrdrb\brdrs\brdrw10 \clbrdrr\brdrs\brdrw10' newline '\cellx9700\pard\plain \intbl' newline
+'\keep\keepn {Explosions\cell }'
+	if explosions then 	
+		dowhile explosions
+		{	'{\field{\*\fldinst {HYPERLINK \\l "g' oid '" }}{\fldrslt \ul{' id%rtf
+			if 'always true' then '}}}' endif /* This comes even the last time through the dowhile loop */
+			'{\par}'
+		}
+	else
+	  	'{none}'
+	endif
+'{\cell }\pard \intbl {\row}'
+'\pard {\par}' newline
+endreport

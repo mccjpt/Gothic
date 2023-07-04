@@ -1,0 +1,19 @@
+Report 'Export graph to HTML'
+/*	Creates HTML documentation for the single graph */
+$single_graph='true'
+subreport '_translators' run
+filename subreport '_default directory' run subreport '_id and oid' run '.html' encoding 'UTF-8' write
+	/* Mark of the Web: Possibly useful in IE, kills pictures in Edge */
+	/* '<!-- saved from url=(0014)about:internet -->' newline */
+	'<html><head>' newline
+	'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'
+	subreport '__stylesheet in HTML' run
+	subreport '_styles and scripts for HTML' run
+	'</head><body>'
+	subreport '_Dictionary in HTML' run
+	subreport '_Object properties in HTML' run newline
+	subreport '_javaScript for HTML' run		
+	'</body></html>'
+close
+external '"' subreport; '_default directory' run subreport '_id and oid' run '.html"' execute
+endreport

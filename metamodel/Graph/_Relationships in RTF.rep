@@ -1,0 +1,42 @@
+Report '_Relationships in RTF'
+'\keep\keepn \b {' id%trunc80%rtf '} \b0 ' newline
+'{relationships:\par}'
+	if ~()
+	then  
+	/* Table begins */
+	'\keep\keepn \trowd \trgaph106' newline
+	subreport '_RTF table cell definitions' run '\cellx2200'
+	subreport '_RTF table cell definitions' run '\cellx4600'
+	subreport '_RTF table cell definitions' run '\cellx7400'	
+	subreport '_RTF table cell definitions' run '\cellx9700\pard\plain \intbl' newline
+	'\keep\keepn \b{In role\cell In relationship\cell With objects(s)\cell In role\cell}\b0 \pard \intbl\ {\row }' newline
+	do ~()
+		{ 
+			'\keep\keepn \trowd \trgaph106 '
+			subreport '_RTF table cell definitions' run	'\cellx2200'
+			subreport '_RTF table cell definitions' run	'\cellx4600'
+			subreport '_RTF table cell definitions' run	'\cellx7400'	
+			subreport '_RTF table cell definitions' run	'\cellx9700\pard \intbl' newline
+			 '{' __id_and_type_RTF() '\cell '
+			do >() { 
+				__id_and_type_RTF() '\cell '
+			}
+			dowhile ~() {
+ 				do .() { 
+					'{\field{\*\fldinst {HYPERLINK \\l "o' oid '" }}{\fldrslt \ul{' 
+					if id then id%trunc80%rtf else '_' endif 
+					'}}}\cell '
+				}
+				__id_and_type_RTF()
+				'\cell }\pard\plain {\row}' newline
+				if 'Always true' then ; endif
+				'\trowd \trgaph106' newline	
+				subreport '_RTF table cell definitions' run '\cellx4600'
+				subreport '_RTF table cell definitions' run '\cellx7400'	
+				subreport '_RTF table cell definitions' run '\cellx9700\pard\plain {\~\cell '
+			}
+		}
+	else 'none\par' newline
+	endif
+ '\pard {\par}' newline
+endreport

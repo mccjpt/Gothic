@@ -1,0 +1,8 @@
+_extraTypesInHTML(@parentGraphId)
+
+if not ($extraObjects =~ oid%wildsp) and not ($mainObjects =~ oid%wildsp) then
+	variable 'extraObjects' append oid ' ' close
+	variable oid '_html' write
+		_tabContent(@parentGraphId)
+	close 
+endif

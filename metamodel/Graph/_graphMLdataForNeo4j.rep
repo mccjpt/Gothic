@@ -1,0 +1,57 @@
+_graphMLdataForNeo4j(@path)
+
+foreach .() {
+	'    <node id="' @path '_' oid '" labels=":' type%var '"><data key="labels">:' type%var '</data>' newline
+	'      <data key="nodelabel">' type '</data>' newline
+	_graphMLattributes() 
+	'    </node>' newline
+	
+	do #() { /* neo4j does not support ports of graphML so created as nodes instead */ 
+		'    <node id="' @path '_' oid;1 '_' oid '" labels=":' type%var '"><data key="labels">:' type%var '</data>' newline
+		'      <data key="nodelabel">' type '</data>' newline
+		_graphMLattributes() 
+		'    </node>' newline
+		
+		variable 'edges' append
+			do >() {
+				'    <edge id="' oid;2 '_' oid '" source="' @path '_' oid;2 '" target="' @path '_' oid;2 '_' oid;1 '" label=":HasPort"><data key="label">:HasPort</data></edge>' newline			
+			}
+		close
+	}
+
+/*	allow decomp but make connection to it from the node as normal edge 
+	do decompositions {
+		variable 'edges' append
+			'    <edge id="subgraph_' @path '_' oid;1 '_' oid '" source="' @path '_' oid;1 '" target="' @path '_' oid;1 '_' oid '" label=":Subgraph"><data key="label">:Subgraph</data></edge>' newline			
+		close
+		_graphMLdataForNeo4j(@path '_' oid;1 '_' oid)
+	}	*/
+}  
+
+foreach >() {
+	'    <node id="' @path '_' oid '" labels=":' type%var '"><data key="labels">:' type%var '</data>' newline
+	'      <data key="nodelabel">' type '</data>' newline
+	_graphMLattributes() 
+	'    </node>' newline	
+	@i = '0'
+	@port1 = @port2 = @obj1 = @obj2 = ''	
+	do ~() orderby objectid num { /* direction should be taken from metamodel, now generic based on having created first role, normally "from" role */
+		do .() {
+			@i++%null
+			@obj = oid
+			local 'obj' @i write @path'_' oid close
+		}
+		do #() {
+			local 'port' @i write @path'_' @obj '_' oid close
+		}
+	}
+	variable 'edges' append
+		'    <edge id="' @path '_' oid @port1 @obj1'" source="' if @port1 then @port1 else @obj1 endif '"' /* if port exists related to it */
+		' target="' @path '_' oid '"'
+		' label=":' type%var '"><data key="label">:' type%var '</data></edge>' newline
+		
+		'    <edge id="' @path '_' oid @port2 @obj2'" source="' @path '_' oid '"' 
+		' target="' if @port2 then @port2 else @obj2 endif '"' /* if port exists related to it */
+		' label=":' type%var '"><data key="label">:' type%var '</data></edge>' newline	
+	close	
+}

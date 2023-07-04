@@ -1,0 +1,50 @@
+report '_styles and scripts for HTML'
+
+'
+<style>
+
+.Item li {
+	background-color: #FFFFFF;
+	border: 2px solid #999999;
+	cursor: pointer;
+	float: left;
+	font-size: 11px;
+	list-style: none;
+	margin: 0px 2px;
+	padding: 1px 10px;
+	position: relative;
+	white-space: nowrap;
+}
+
+.Item li a { 
+	text-decoration: none; 
+}
+
+.ItemBody {
+	margin-top: 20px;
+	padding: 20px 10px;
+	border: 2px solid #999999;
+}
+
+</style>
+
+<script type="text/javascript">
+window.onhashchange = function() {       
+	hashRE = /^#(\d+_\d+)(?:_(Properties|Relationships|Subgraphs|Dictionary)Table)?$/;
+	hashMatch = location.hash.match(hashRE);
+	if (hashMatch !== null) {
+		show(hashMatch[1]);
+		if (hashMatch[2] !== undefined) {
+			toggleItem(hashMatch[1], hashMatch[2]);
+		}
+	} else {
+		show("' oid '");
+		toggleItem("' oid '", "Properties");
+	}
+}
+
+</script>
+
+'
+
+endreport

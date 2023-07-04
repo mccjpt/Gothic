@@ -1,0 +1,7 @@
+_osMkdir(@dir)
+if sep = '\' then
+	'mkdir '
+else
+	'mkdir -p '
+endif
+'"' @dir '"'

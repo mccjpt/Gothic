@@ -1,0 +1,8 @@
+_Project_NP()
+_Project_Check()
+do :()
+{	_Project_Check()
+	do contents where metatype <> 'Text' and metatype <> 'String'
+	{	_Project_NP()
+	}
+}

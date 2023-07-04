@@ -1,0 +1,19 @@
+Report '_document definitions'
+filename subreport '_default directory' run id%file '.rtf' write
+	'{\rtf\ansi\deff0'
+	'{\stylesheet
+	{\widctlpar\adjustright \fs24\cgrid \snext0 Normal;}
+	{\s1\widctlpar\adjustright \fs24\cgrid \sbasedon0 \snext0 heading 1;}
+	{\s2\widctlpar\adjustright \fs24\cgrid \sbasedon0 \snext0 heading 2;}
+	{\s3\widctlpar\adjustright \fs24\cgrid \sbasedon0 \snext0 heading 3;}
+	{\*\cs10 \additive Default Paragraph Font;}}' newline
+	'{\*\template metaedit.dot}{\*\docvar {Document_Already_Opened}{False}}'
+	'\widoctrl\ftnbj\linkstyles \sectd'
+	'\linex0\headery567\footery567\colsx709\endnhere\sectdefaultcl '
+	subreport '_RTF documentation cover page' run
+	subreport '_RTF table of contents' run
+	subreport '_graph information in RTF' run 
+	'}'
+close
+external '"' subreport '_default directory' run  id%file '.rtf"' execute
+endreport

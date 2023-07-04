@@ -1,0 +1,30 @@
+_vcsPreCheckIn_svn()
+/* Only SVN needs this, so only build the script and run it here */
+
+/* With a multi-user MetaEdit+ repository, a remote SVN and each user
+   having their own SVN working directory, $vcsWorkingDir, if other users
+   have done Save Version since we last did, we want SVN to consider
+   $vcsWorkingDir as being at the latest revision. Doing an 
+   update while our previous files are there is fastest, and we can delete
+   all files after that so that when we generate new files, there are only
+   the new files and none left over that have actually been deleted (e.g.
+   .txt if a graph has been deleted, or db files that only exist for one
+   transaction). No other way seems to exist in SVN to get it up to date
+   without conflicts, e.g. as git reset --soft allows us to do after putting
+   our desired files in $vcsWorkingDir. Tried the following: 
+   update/resolve --accept mine-full/working, but these still include files
+   from the latest published revision which we have subsequently deleted.
+*/
+
+if $vcsRebase then 
+	/* Output the pre-check-in script */
+	filename $preCheckInScript write
+		_vcsHeader()
+		_osCd($vcsWorkingDir) newline
+		'svn update || ' _osPause() newline
+		'exit'
+	close
+
+	/* Execute the generated script file and wait for it to finish */
+	external $preCheckInScript executeBlocking
+endif

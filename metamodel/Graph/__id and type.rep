@@ -1,0 +1,9 @@
+Report '__id and type'
+to '%xml' translate
+	if id = type then 
+		': ' type
+	else 
+		id%trunc80 ': ' type newline
+	endif
+endto
+endreport

@@ -1,0 +1,16 @@
+Report '_Delphi operation'
+'		'
+if :Method type; = 'class' then 'class ' endif
+if :Return type; then 'function '
+else 'procedure ' endif
+id
+'('
+dowhile :Parameter list; {:Parameter; ': ' :Data type; ', '}
+')'
+if :Return type; then
+	': ' :Return type; 
+endif	
+if :Protocol; = 'dynamic' then '; dynamic' endif
+if :Protocol; = 'virtual' then '; virtual' endif
+';' newline
+endreport

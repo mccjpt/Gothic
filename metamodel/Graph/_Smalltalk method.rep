@@ -1,0 +1,28 @@
+Report '_Smalltalk method'
+'!' id;1
+if :Method type; = 'class'	then ' class' endif
+' methodsFor: '''
+if :Protocol; = '' then
+	'As yet unclassified'
+else
+	:Protocol;
+endif
+'''!'	newline newline
+if :Parameter list; then
+	dowhile :Parameter list; {:Keyword; ' ' :Parameter; ' '}
+else
+	:Method name;
+endif
+if :Documentation; <> ''
+then
+	newline '	"'
+	dowhile :Documentation; {id newline '	'}
+	'"'
+endif
+newline newline
+if :Method body; <> '' then
+	dowhile :Method body; {'	' id newline }
+endif
+'! !'
+newline newline
+endreport

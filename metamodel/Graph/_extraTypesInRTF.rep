@@ -1,0 +1,14 @@
+Report '_extraTypesInRTF'
+if not ($extraObjects =~ oid%wildsp) and not ($mainObjects =~ oid%wildsp) then
+	variable 'extraObjects' append oid ' ' close
+	variable oid '_rtf' write
+	'\s3{{\*\bkmkstart o' oid '}' id%trunc80%rtf '{\*\bkmkend o' oid '}: ' type%rtf '{\par}}\pard\plain' newline
+	'{\keep\keepn Properties:\par}' newline
+	'\trowd \trgaph105'
+	subreport '_RTF table cell definitions' run	'\cellx2500'
+	subreport '_RTF table cell definitions' run	'\cellx9700\pard\plain'
+	_propsDeeplyInRTF()
+	 '\pard {\par}' newline
+	close 
+endif
+endreport

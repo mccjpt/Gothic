@@ -1,0 +1,67 @@
+Report '_javaScript for HTML'
+
+'<script type="text/javascript">
+
+var divIds = ["' oid '"'
+
+foreach .()
+{	',"' oid '"'
+}
+
+local 'extras' write variable oid '_extraObjects' read close
+if @extras <> ' ' then
+	do @extras%spaceToNewline where id
+	{	',"' id '"'
+	}
+endif
+
+'];
+
+function setVisibility(id, visibility) {
+  var element = document.getElementById(id);
+  if(element != null) {
+    element.style.display = visibility;
+  }
+}
+
+function setTabStatus(id, status) {
+  var element = document.getElementById(id);
+  if(element != null) {
+    if (status) {
+      element.style.background = "#DDDDDD";
+    } else {
+      element.style.background = "#FFFFFF";
+    }
+  }
+}
+
+function show(id) {
+  for(var i in divIds) {
+    var divName = divIds[i];
+    if(divName == id) {
+      setVisibility(divName,"block");
+      toggleItem(divName,"Properties");
+    } else {
+      setVisibility(divName,"none");
+    }
+  }
+}   
+
+function toggleItem(id, tableName) {
+  setVisibility(id+"_PropertiesTable","none");
+  setTabStatus(id+"_Properties", false);
+  setVisibility(id+"_RelationshipsTable","none");
+  setTabStatus(id+"_Relationships", false);
+  setVisibility(id+"_SubgraphsTable","none");
+  setTabStatus(id+"_Subgraphs", false);
+  setVisibility(id+"_DictionaryTable","none");
+  setTabStatus(id+"_Dictionary", false);
+  setVisibility(id+"_"+tableName+"Table","block");
+  setTabStatus(id+"_"+tableName, true);
+}
+
+location.hash = "#' oid '";
+
+</script>' newline
+
+endreport

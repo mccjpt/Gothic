@@ -1,0 +1,30 @@
+Report 'Checkings'
+'INTEGRITY CHECKING REPORT FOR GRAPH: ' id newline
+
+'Objects without any connections:'
+newline
+foreach .() 
+{	if not >() then
+		if not type = 'Note' then
+			'''' id ''' <' type '>'
+			' has no relationships!'
+			newline
+		endif
+	endif
+}
+newline
+
+'Objects with empty properties:'
+newline
+foreach .() 
+{	do :()
+	{	if not id then 
+			'''' id;1 ''' <' type;1
+			'>: Property "'
+			containers
+			'" is empty!'
+			newline
+		endif
+	}
+}
+endreport

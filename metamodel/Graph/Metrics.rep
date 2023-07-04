@@ -1,0 +1,18 @@
+Report 'Metrics'
+/* Metrics report reads model hierarchy and reports number of objects and relationships per graph */ 
+subreport '_translators' run
+/* Initialize the variable for counting whether the graph is already reported for cases of recursive model hierarchies */
+$Graphs=' '
+$num_graphs=$total_properties=$total_used_properties=$total_empty_properties='0'
+subreport '_GraphMetrics' run 
+newline
+'METRICS:' newline
+'Total number of reported graphs: ' $num_graphs newline
+'Total number of objects: ' math $total_objects evaluate newline
+'Total number of relationships: ' math $total_relationships evaluate newline
+'Total number of connections: ' math $total_connections evaluate newline
+'Total number of roles: ' math $total_roles evaluate newline
+'Total number of properties: ' math $total_properties evaluate newline
+'Total number of used properties: ' math $total_used_properties evaluate newline
+'Total number of empty properties: ' math $total_empty_properties evaluate newline
+endreport

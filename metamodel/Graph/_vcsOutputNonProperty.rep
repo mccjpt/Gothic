@@ -1,0 +1,3 @@
+_vcsOutputNonProperty(@indent)
+@indent metatype ': ' id ' <' type '> ' oid newline
+_vcsOutputProperties(@indent)

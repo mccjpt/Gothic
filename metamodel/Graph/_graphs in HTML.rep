@@ -1,0 +1,28 @@
+Report '_graphs in HTML'
+/*
+*  Tests whether the current graph has already been reported, if not
+*  Adds the current graph among the reported the graphs variable (Graphs)
+*  Creates a new HTML file for this graph
+*  Calls __stylesheet in HTML-subreport
+*  Calls _Dictionary in HTML-subreport
+*  Calls _Object properties  in HTML-subreport
+*/
+
+if not $Graphs =~ oid%wildsp then
+	variable 'Graphs' append oid ' ' close
+	filename subreport '_default directory' run subreport '_id and oid' run '.html' encoding 'UTF-8' write
+		/* Mark of the Web: Possibly useful in IE, kills pictures in Edge */
+		/* '<!-- saved from url=(0014)about:internet -->' newline */
+		'<html><head>' newline
+		'<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />'
+		subreport '__stylesheet in HTML' run
+		subreport '_styles and scripts for HTML' run
+		'</head><body>' newline
+		subreport '_Dictionary in HTML' run
+		subreport '_Object properties in HTML' run newline
+		subreport '_javaScript for HTML' run newline
+		'</body></html>'
+	close
+endif
+
+endreport

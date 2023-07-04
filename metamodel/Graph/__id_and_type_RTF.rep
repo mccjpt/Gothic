@@ -1,0 +1,9 @@
+__id_and_type_RTF()
+
+to '%rtf' translate
+	if id = type then 
+		': ' type
+	else 
+		id%trunc80 ': ' type newline
+	endif
+endto

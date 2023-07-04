@@ -1,0 +1,11 @@
+_graphMLPortDirection()
+			
+if type=~ 'In*' and not type=~ 'InOut*' then 
+	'in' 
+else
+	if type=~ 'Out*' and not type=~ 'InOut*' then 
+		'out' 
+	else
+		'inout'
+	endif
+endif

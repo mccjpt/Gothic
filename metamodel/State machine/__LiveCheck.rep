@@ -1,0 +1,8 @@
+__LiveCheck()
+
+foreach .State; where not ~() {
+	'Warning: ' id ' does not have any transitions.' newline 
+}
+
+
+

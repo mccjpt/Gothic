@@ -1,0 +1,18 @@
+Report 'Object Nesting'
+'NESTED OBJECTS (graph: ' id ')'
+newline
+subreport '_translators' run
+$generated=' '
+
+/* Objects that are not themselves contained, biggest first */
+foreach .()  where not containers  orderby area num desc
+{	/* Only look at objects that contain object(s), not rels */
+	variable 'containsObjs' write
+		do contents where metatype = 'Object' unique metatype
+		{	'ok' }
+	close
+	if $containsObjs = 'ok' then
+		subreport '_Object Nesting' run
+	endif
+}
+endreport
