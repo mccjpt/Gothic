@@ -83,12 +83,17 @@ Event
 Bindings
 ==========================
 Transition
+	Source: Reset
+	Target: State
+Transition
 	Source: State
 	Target: State
 
 ==========================
 Constraints
 ==========================
+Reset may be in at most 1 Transition relationship
+Reset may occur at most 1 time
 Property "Name" in State must have unique values
 
 ==========================
@@ -105,5 +110,6 @@ Sub-Generators
 ==========================
 _commands
 _events
+_resetChecks
 __LiveCheck
 

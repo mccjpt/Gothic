@@ -5,4 +5,4 @@ foreach .State; where not ~() {
 }
 
 
-
+_resetChecks()
